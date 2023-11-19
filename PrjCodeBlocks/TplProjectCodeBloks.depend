@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1698511004 source:c:\users\mbarb\onedrive\documents\cproject\tplprojectcodebloks\src\library\modulelog\modulelog.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ModuleLog.h"
+
+1698511008 c:\users\mbarb\onedrive\documents\cproject\tplprojectcodebloks\src\library\modulelog\modulelog.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"ModuleLog.h"
+

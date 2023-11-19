@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="TplProjectCodeBloks" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Bin/Debug/TplProjectCodeBloks" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Bin/Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../Bin/Debug/TplProjectCodeBloks" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Bin/Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../Src/Config/Tpl_ConfigPrivate.h" />
+		<Unit filename="../Src/Config/TypeCommon.h" />
+		<Unit filename="../Src/Library/ModuleLog/ModuleLog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Library/ModuleLog/ModuleLog.h" />
+		<Unit filename="../Src/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
