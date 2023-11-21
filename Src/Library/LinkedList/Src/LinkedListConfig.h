@@ -5,25 +5,35 @@
  * It should not be reproduced in any medium or used in any way
  * without prior written consent of AUDMBA
  * ******************************************************************/
-/*****************************************************************************
- * @file        TypeCommon.h
- * @brief       Template_BriefDescription.
- * @details     TemplateDetailsDescription.\n
- *
- * @author      xxxxxx
- * @date        jj/mm/yyyy
- * @version     1.0
- */
-#ifndef TYPECOMMON_INCLUDED
-#define TYPECOMMON_INCLUDED
-
-
+/**
+* @file        LinkedListConfig.h
+* @brief       Manage LinkedList.
+* @details     
+* @author      AUDMBA
+* @date        28/10/2023
+* @version     0.0
+*
+*/
+  
+#ifndef __LinkedListConfig_H
+#define __LinkedListConfig_H
+    
+    // ********************************************************************
+    // *                      Includes
+    // ********************************************************************
+   
+    // ********************************************************************
+    // *                      Defines
+    // ********************************************************************
+    #define MINIMUM 50 
+    // ********************************************************************
+    // *                      Types
+    // ********************************************************************
     typedef enum
-
     {
-
         // Errors
-	    RC_ERROR_POINTOR_NULL = -15,                    /**<The pointor initialize is NULL*/
+        RC_ERROR_POINTOR_NULL = -16,                    /**<At least one of the pointor is NULL*/
+        RC_ERROR_ALLOC_FAILED = -15,                    /**<At least one of alloc memory failed*/
         RC_ERROR_PARAM_INVALID = -14,                   /**< At least one of the parameters is not in the allowed range. */
         RC_ERROR_PARAM_NOT_SUPPORTED = -13,             /**< At lest one of the parameters is not supported. */
         RC_ERROR_WRONG_STATE = -12,                     /**< The function cannot succeed in the current state. */
@@ -31,7 +41,7 @@
         RC_ERROR_MISSING_CONFIG = -10,                  /**< Some configuration is missing. */
         RC_ERROR_WRONG_CONFIG = -9,                     /**< The configuration is not consistent. */
         RC_ERROR_UNDEFINED = -8,                        /**< An undefined error has occurred. */
-        RC_ERROR_NOT_SUPPORTED = -7,                    /**< The function is not supported. */
+        RC_ERROR_NOT_SUPPORTED = -7,                    /**< The function is not supported. */ 
         RC_ERROR_BUSY = -6,                             /**< Process busy, task not accepted. */
         RC_ERROR_TIMEOUT = -5,                          /**< The operation timed out. */
         RC_ERROR_NOT_ALLOWED = -4,                      /**< Not allowed to perform the requested operation. */
@@ -57,19 +67,33 @@
         RC_WARNING_WRONG_RESULT = 10                    /**< The operation has succeeded, but the result is incorrect. */
 
     } t_eReturnCode;
-
-typedef unsigned char t_bool;               /**< Boolean type. */
-typedef unsigned char t_uint8;              /**< Unsigned 8-bit type. */
-typedef signed char t_sint8;                /**< Signed 8-bit type. */
-typedef unsigned short t_uint16;            /**< Unsigned 16-bit type. */
-typedef signed short t_sint16;              /**< Signed 16-bit type. */
-typedef unsigned long t_uint32;             /**< Unsigned 32-bit type. */
-typedef signed long t_sint32;               /**< Signed 32-bit type. */
-typedef float t_float32;                    /**< 32-bit float type. */
-//typedef unsigned long long t_uint64;        /**< Unsigned 64-bit type. */
-//typedef signed long long t_sint64;          /**< Signed 64-bit type. */
-typedef char t_char;
-
-#endif // ITEM_C_INCLUDED
-
-
+    typedef unsigned char t_bool;               /**< Boolean type. */
+    typedef unsigned char t_uint8;              /**< Unsigned 8-bit type. */
+    typedef signed char t_sint8;                /**< Signed 8-bit type. */
+    typedef unsigned short t_uint16;            /**< Unsigned 16-bit type. */
+    typedef signed short t_sint16;              /**< Signed 16-bit type. */
+    typedef unsigned long t_uint32;             /**< Unsigned 32-bit type. */
+    typedef signed long t_sint32;               /**< Signed 32-bit type. */
+    typedef float t_float32;                    /**< 32-bit float type. */
+    //typedef unsigned long long t_uint64;        /**< Unsigned 64-bit type. */
+    //typedef signed long long t_sint64;          /**< Signed 64-bit type. */
+    typedef char t_char;
+    // ********************************************************************
+    // *                      Prototypes
+    // ********************************************************************
+#endif                   /* LinkedList_H */
+//****************************************************************************
+// End of File
+//****************************************************************************
+/*********************************************************************
+*
+*	@brief
+*	@details
+*
+*
+*	@params[in] 
+*	@params[out]
+*	 
+*
+*
+//*********************************************************************/

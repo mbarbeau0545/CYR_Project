@@ -17,7 +17,7 @@
 #include "Library/ModuleLog/ModuleLog.h"
 #include "Config/TypeCommon.h"
 //#include "SDL2/SDL.h"
-#include "Fish/fish.h"
+#include "FishDsgn/fishDsgn.h"
 #include "Config/Constant.h"
 
 // ********************************************************************
@@ -191,24 +191,24 @@ static t_eReturnCode s_Main_ProcessInput(void)
 int main(int argc, char *argv[])
 {
     t_eReturnCode Ret_e = RC_OK;
-    t_sDesignTriangle triangle_s;
+    t_sFishMvmt_FishPosition fish_position_s;
     //initialize g_game_is_running
     Ret_e = s_Main_InitializeWindow();
     //ModLog_WriteDataInFile(ModLog_INT, "InitializeWindow report :",&Ret_e);
     //Ret_e = Main_Setup();
     if(Ret_e == RC_OK)
     {
-        Fish_Setup(&triangle_s);
+        Fish_Setup(&fish_position_s);
         ModLog_WriteInfoInFile("In main, Main isintialize");
         while(g_game_is_running == true)
         {
             Ret_e = s_Main_ProcessInput();
             if(Ret_e == RC_OK)
             {
-                Ret_e = Fish_Render(triangle_s, g_renderer_ps);
+                Ret_e = Fish_Render(fish_position_s, g_renderer_ps);
                 if(Ret_e == RC_OK)
                 {
-                    Ret_e = Fish_Update(&triangle_s);
+                    Ret_e = Fish_Update(&fish_position_s);
                 }
             }
         }

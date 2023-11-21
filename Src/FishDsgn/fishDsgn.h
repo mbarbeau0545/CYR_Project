@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file        fish.h
+ * @file        fishDsgn.h
  * @brief       Manage the fish design in the game.
  * @details     TemplateDetailsDescription.\n
  *
@@ -21,6 +21,7 @@
     #include "Config/TypeCommon.h"
     #include "SDL2/SDL.h"
     #include "Config/Constant.h"
+    #include "../FishMvmt/FishMvmt.h"
     // ********************************************************************
     // *                      Defines
     // ********************************************************************
@@ -28,25 +29,7 @@
     // ********************************************************************
     // *                      Types
     // ********************************************************************
-    /*draw rectangle*/
-    typedef struct
-    {
-        float axeX_f;
-        float axeY_f;
-        float width_f;
-        float height_f;
-    }t_sDesignBall;
 
-    /*draw triangle*/
-    typedef struct 
-    {
-        unsigned int position_x1_ui;
-        unsigned int position_y1_ui;
-        unsigned int position_x2_ui;
-        unsigned int position_y2_ui;
-        unsigned int position_x3_ui;
-        unsigned int position_y3_ui;
-    }t_sDesignTriangle;
     // ********************************************************************
     // *                      Prototypes
     // ********************************************************************
@@ -58,25 +41,11 @@
     //********************************************************************************
     //                      Local functions - Prototypes
     //********************************************************************************
+
+
     /**
      *
-     *	@brief  Deal with exit window for now
-    *	@details
-    *
-    *
-    *	@params[in]   None
-    *	@params[out]
-    *
-    *  @retval RC_OK			                   @copydoc RC_OK
-    *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
-    *  @retval RC_ERROR_PARAM_INVALID    @copydoc RC_ERROR_PARAM_INVALID
-    */
-    t_eReturnCode Fish_ProcessInput(void);
-    /****************************************************************************/
-    
-    /**
-     *
-     *	@brief  Initialize the fish dimension and position 
+     *	@brief  Initialize the fish dimension and position
     *	@details
     *
     *
@@ -86,7 +55,7 @@
     *  @retval RC_OK			                   @copydoc RC_OK
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
-    t_eReturnCode Fish_Setup(t_sDesignTriangle *f_setup_triangle_s)
+    t_eReturnCode Fish_Setup(t_sFishMvmt_FishPosition *f_setup_triangle_s);
     /****************************************************************************/
     /**
      *
@@ -101,7 +70,7 @@
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
 
-    t_eReturnCode Fish_Update(t_sDesignBall *f_design_ball_ps);
+    t_eReturnCode Fish_Update(t_sFishMvmt_FishPosition *f_design_ball_ps);
     /****************************************************************************/
     /**
      *
@@ -115,7 +84,7 @@
     *  @retval RC_OK			                   @copydoc RC_OK
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
-   t_eReturnCode Fish_Render(t_sDesignTriangle f_setup_ball_s, SDL_Renderer *f_renderer_ps);
+   t_eReturnCode Fish_Render(t_sFishMvmt_FishPosition f_setup_ball_s, SDL_Renderer *f_renderer_ps);
     //****************************************************************************
     //                      Public functions - Implementation
     //********************************************************************************

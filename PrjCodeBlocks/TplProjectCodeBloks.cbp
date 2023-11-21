@@ -39,10 +39,18 @@
 		</Linker>
 		<Unit filename="../Src/Config/Constant.h" />
 		<Unit filename="../Src/Config/TypeCommon.h" />
-		<Unit filename="../Src/Fish/fish.c">
+		<Unit filename="../Src/FishDsgn/fishDsgn.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../Src/Fish/fish.h" />
+		<Unit filename="../Src/FishDsgn/fishDsgn.h" />
+		<Unit filename="../Src/FishMvmt/FishMvmt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/FishMvmt/FishMvmt.h" />
+		<Unit filename="../Src/Library/LinkedList/Src/LinkedList.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Library/LinkedList/Src/LinkedList.h" />
 		<Unit filename="../Src/Library/ModuleLog/ModuleLog.c">
 			<Option compilerVar="CC" />
 		</Unit>

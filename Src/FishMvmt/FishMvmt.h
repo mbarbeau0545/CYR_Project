@@ -1,15 +1,16 @@
 /*********************************************************************
- * @file        Constant.h
- * @brief       This file repertory all constant needed.\n
- * @details
+ * @file        FishMvmt.h
+ * @brief       Template_BriefDescription.
+ * @details     TemplateDetailsDescription.\n
  *
- * @author      AUDMBA
- * @date        20/11/2023
- * @version     0.0
+ * @author      xxxxxx
+ * @date        jj/mm/yyyy
+ * @version     1.0
  */
+  
+#ifndef FISH_MOVEMENT_C_INCLUDED
+#define FISH_MOVEMENT_C_INCLUDED
 
-#ifndef CONSTANT_H_INCLUDED
-#define CONSTANT_H_INCLUDED
 
 
 
@@ -18,59 +19,87 @@
     // *                      Includes
     // ********************************************************************
     #include "Config/TypeCommon.h"
-
+    
     // ********************************************************************
     // *                      Defines
     // ********************************************************************
-    /*setup  windows*/
-    #define WINDOW_WIDTH 800 
-    #define WINDOW_HEIGHT 600
 
-    /*boolean*/
-    #define false 0
-    #define true 1
-
-    /*speed and fps stuff frame*/
-    #define FPS 30 /*< 30 images per second */
-    #define FRAME_TARGET_TIME (1000 / FPS) /*< number of frame per second */
-    
-    /*Width and Height of triangle representing the fish*/
-    #define FISH_WIDTH 15
-    #define FISH_HEIGHT 10
-    #define NBR_FISH 1
     // ********************************************************************
     // *                      Types
     // ********************************************************************
-
+    typedef struct
+    {
+        float positionX_f64;    /*<position in x axes*/
+        float positionY_f64;    /*<position in y axes*/
+        float angle_f64;                /*<angle of the fish direction*/
+    }t_sFishMvmt_FishPosition;
+    typedef struct 
+    {
+        float axeX_f64;
+        float axeY_f64;
+    }t_sFishMvmt_FishPoint;
     // ********************************************************************
     // *                      Prototypes
     // ********************************************************************
-
+        
     // ********************************************************************
     // *                      Variables
     // ********************************************************************
-
+    
     //********************************************************************************
     //                      Local functions - Prototypes
     //********************************************************************************
 
-        //****************************************************************************
+    //****************************************************************************
     //                      Public functions - Implementation
     //********************************************************************************
+    /**
+     *
+     *	@brief
+    *	@details
+    *
+    *
+    *	@params[in] 
+    *	@params[out]
+    *	 
+    *
+    *
+    */
+    t_eReturnCode FishMovement_Separation();
+    /*************************************************************************/
+    /**
+     *
+     *	@brief
+    *	@details
+    *
+    *
+    *	@params[in] 
+    *	@params[out]
+    *	 
+    *
+    *
+    */
+    t_eReturnCode FishMovement_Cohesion();
+    /*************************************************************************/
+    /**
+     *
+     *	@brief
+    *	@details
+    *
+    *
+    *	@params[in] 
+    *	@params[out]
+    *	 
+    *
+    *
+    */
+    t_eReturnCode FishMovement_Alignments();
 
     //********************************************************************************
     //                      Local functions - Implementation
     //********************************************************************************
 
-
-#endif // CONSTANT_H_INCLUDED
+#endif // FISH_MOVEMENT_C_INCLUDED           
 //************************************************************************************
 // End of File
 //************************************************************************************
-
-
-
-
-
-
-
