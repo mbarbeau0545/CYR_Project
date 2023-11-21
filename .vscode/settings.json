@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "typecommon.h": "c",
+        "modulelog.h": "c"
+    }
+}

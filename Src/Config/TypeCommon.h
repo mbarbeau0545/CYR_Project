@@ -14,7 +14,9 @@
  * @date        jj/mm/yyyy
  * @version     1.0
  */
- 
+#ifndef TYPECOMMON_INCLUDED
+#define TYPECOMMON_INCLUDED
+
     typedef enum
 
     {
@@ -28,7 +30,7 @@
         RC_ERROR_MISSING_CONFIG = -10,                  /**< Some configuration is missing. */
         RC_ERROR_WRONG_CONFIG = -9,                     /**< The configuration is not consistent. */
         RC_ERROR_UNDEFINED = -8,                        /**< An undefined error has occurred. */
-        RC_ERROR_NOT_SUPPORTED = -7,                    /**< The function is not supported. */ 
+        RC_ERROR_NOT_SUPPORTED = -7,                    /**< The function is not supported. */
         RC_ERROR_BUSY = -6,                             /**< Process busy, task not accepted. */
         RC_ERROR_TIMEOUT = -5,                          /**< The operation timed out. */
         RC_ERROR_NOT_ALLOWED = -4,                      /**< Not allowed to perform the requested operation. */
@@ -66,3 +68,7 @@ typedef float t_float32;                    /**< 32-bit float type. */
 //typedef unsigned long long t_uint64;        /**< Unsigned 64-bit type. */
 //typedef signed long long t_sint64;          /**< Signed 64-bit type. */
 typedef char t_char;
+
+#endif // ITEM_C_INCLUDED
+
+
