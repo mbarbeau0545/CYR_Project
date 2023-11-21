@@ -7,7 +7,7 @@
  * @date        jj/mm/yyyy
  * @version     1.0
  */
-  
+
 #ifndef FISH_MOVEMENT_C_INCLUDED
 #define FISH_MOVEMENT_C_INCLUDED
 
@@ -19,7 +19,7 @@
     // *                      Includes
     // ********************************************************************
     #include "Config/TypeCommon.h"
-    
+    #include "SDL2/SDL.h"
     // ********************************************************************
     // *                      Defines
     // ********************************************************************
@@ -33,7 +33,7 @@
         float positionY_f64;    /*<position in y axes*/
         float angle_f64;                /*<angle of the fish direction*/
     }t_sFishMvmt_FishPosition;
-    typedef struct 
+    typedef struct
     {
         float axeX_f64;
         float axeY_f64;
@@ -41,11 +41,11 @@
     // ********************************************************************
     // *                      Prototypes
     // ********************************************************************
-        
+
     // ********************************************************************
     // *                      Variables
     // ********************************************************************
-    
+
     //********************************************************************************
     //                      Local functions - Prototypes
     //********************************************************************************
@@ -59,13 +59,13 @@
     *	@details
     *
     *
-    *	@params[in] 
+    *	@params[in]
     *	@params[out]
-    *	 
+    *
     *
     *
     */
-    t_eReturnCode FishMovement_Separation();
+    t_eReturnCode FishMvmt_Separation();
     /*************************************************************************/
     /**
      *
@@ -73,13 +73,13 @@
     *	@details
     *
     *
-    *	@params[in] 
+    *	@params[in]
     *	@params[out]
-    *	 
+    *
     *
     *
     */
-    t_eReturnCode FishMovement_Cohesion();
+    t_eReturnCode FishMvmt_Cohesion();
     /*************************************************************************/
     /**
      *
@@ -87,19 +87,32 @@
     *	@details
     *
     *
-    *	@params[in] 
+    *	@params[in]
     *	@params[out]
-    *	 
+    *
     *
     *
     */
-    t_eReturnCode FishMovement_Alignments();
+    t_eReturnCode FishMvmt_Alignments();
+     /**
+     *
+     *	@brief
+    *	@details
+    *
+    *
+    *	@params[in]
+    *	@params[out]
+    *
+    *
+    *
+    */
+    t_eReturnCode FishMvmt_FishMove(t_sFishMvmt_FishPosition *f_fishes_positions_ps);
 
     //********************************************************************************
     //                      Local functions - Implementation
     //********************************************************************************
 
-#endif // FISH_MOVEMENT_C_INCLUDED           
+#endif // FISH_MOVEMENT_C_INCLUDED
 //************************************************************************************
 // End of File
 //************************************************************************************

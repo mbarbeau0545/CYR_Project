@@ -70,7 +70,7 @@
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
 
-    t_eReturnCode Fish_Update(t_sFishMvmt_FishPosition *f_design_ball_ps);
+    t_eReturnCode Fish_Update(t_sFishMvmt_FishPosition f_positions_fishes_ps[]);
     /****************************************************************************/
     /**
      *

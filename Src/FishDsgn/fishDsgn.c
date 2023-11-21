@@ -44,7 +44,7 @@ t_sFishMvmt_FishPosition g_fihes_position_s[NBR_FISH];
 /**
  *
  *	@brief Get the other fish point
-*	@details We have the sommet of the triangle, we need to determine where are 
+*	@details We have the sommet of the triangle, we need to determine where are
 *            the other point due to  t_sFishMvmt_FishPoint *f_positions_fishes_s
 *            annd put it in f_fish_point_left_ps, f_fish_point_right_ps
 *
@@ -58,15 +58,23 @@ t_sFishMvmt_FishPosition g_fihes_position_s[NBR_FISH];
 
 static t_eReturnCode s_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes_s,    /*the sommet of the triangle*/
                                     t_sFishMvmt_FishPoint *f_fish_point_left_ps,        /*the left point*/
-                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps);      /*the right point*/
+                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
+                                    float f_angle_f64                            );    /*Angle in radian between axeX and AxeY for the direction*/
 //********************************************************************************
 //                      Local functions - Implementation
 //********************************************************************************
 static t_eReturnCode s_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes_s,    /*the sommet of the triangle*/
                                     t_sFishMvmt_FishPoint *f_fish_point_left_ps,       /*the left point*/
-                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps)      /*the right point*/
+                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
+                                    float f_angle_f64                            )     /*Angle in radian between axeX and AxeY for the direction*/
 {
     t_eReturnCode Ret_e = RC_OK;
+    float projection_b_64;
+    float projection_c_64;
+    float projection_bb_64;
+    float projection_cc_64;
+    float x_base_64;
+    float y_base_64;
     if(f_fish_point_left_ps == NULL || f_fish_point_right_ps == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
@@ -74,12 +82,20 @@ static t_eReturnCode s_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes
     }
     if(Ret_e == RC_OK)
     {
-        /*get the left side triangle */
-        f_fish_point_left_ps->axeX_f64 = f_positions_fishes_s.positionX_f64 - (FISH_WIDTH / 2);
-        f_fish_point_left_ps->axeY_f64 = f_positions_fishes_s.positionY_f64 - FISH_HEIGHT;
-        /*get the right side*/
-        f_fish_point_right_ps->axeX_f64 = f_positions_fishes_s.positionX_f64 + (FISH_WIDTH / 2);
-        f_fish_point_right_ps->axeY_f64 = f_positions_fishes_s.positionY_f64 - FISH_HEIGHT;
+        /*determine some stuff only in function of f_angle_f64, FISH_WIDTH, FISH_HEIGHT*/
+        projection_c_64 = FISH_HEIGHT * cos(f_angle_f64);
+        projection_b_64 = FISH_HEIGHT * sin(f_angle_f64);
+        x_base_64 = f_positions_fishes_s.positionX_f64 + projection_c_64;
+        y_base_64 = f_positions_fishes_s.positionY_f64 + projection_b_64;
+        projection_bb_64 = (FISH_WIDTH / 2) * sin(M_PI/2 - f_angle_f64);
+        projection_cc_64 = (FISH_WIDTH / 2) * cos(M_PI/2 - f_angle_f64);
+        /*now we talking */
+        /*left side*/
+        f_fish_point_left_ps->axeX_f64 = x_base_64 - projection_cc_64;
+        f_fish_point_left_ps->axeY_f64 = y_base_64 + projection_bb_64;
+        /*right side*/
+        f_fish_point_right_ps->axeX_f64 = x_base_64 + projection_cc_64;
+        f_fish_point_right_ps->axeY_f64 = y_base_64 - projection_bb_64;
     }
     return Ret_e;
 }
@@ -100,7 +116,7 @@ t_eReturnCode Fish_Render(t_sFishMvmt_FishPosition f_positions_fishes_s, SDL_Ren
     }
     if(Ret_e == RC_OK)
     {
-        s_GetFishPoint(f_positions_fishes_s, &left_side_fish_s, &right_side_fish_s);
+        s_GetFishPoint(f_positions_fishes_s, &left_side_fish_s, &right_side_fish_s, f_positions_fishes_s.angle_f64);
         //erase the last window
         SDL_SetRenderDrawColor(f_renderer_ps, 0, 0, 0, 255);
         SDL_RenderClear(f_renderer_ps);
@@ -117,11 +133,11 @@ t_eReturnCode Fish_Render(t_sFishMvmt_FishPosition f_positions_fishes_s, SDL_Ren
         /*draw birds in window*/
         SDL_SetRenderDrawColor(f_renderer_ps, 255, 0, 0, 255);
         SDL_RenderDrawLineF(f_renderer_ps, f_positions_fishes_s.positionX_f64 , f_positions_fishes_s.positionY_f64,
-                                           left_side_fish_s.axeX_f64          ,left_side_fish_s.axeY_f64);  
+                                           left_side_fish_s.axeX_f64          ,left_side_fish_s.axeY_f64);
         SDL_RenderDrawLineF(f_renderer_ps, f_positions_fishes_s.positionX_f64 , f_positions_fishes_s.positionY_f64,
-                                           right_side_fish_s.axeX_f64         ,right_side_fish_s.axeY_f64); 
+                                           right_side_fish_s.axeX_f64         ,right_side_fish_s.axeY_f64);
         SDL_RenderDrawLineF(f_renderer_ps, right_side_fish_s.axeX_f64          , right_side_fish_s.axeY_f64,
-                                           left_side_fish_s.axeX_f64          ,left_side_fish_s.axeY_f64); 
+                                           left_side_fish_s.axeX_f64          ,left_side_fish_s.axeY_f64);
         //use for rectangle
         //SDL_SetRenderDrawColor(f_renderer_ps, 255, 255, 255, 255);
         SDL_RenderPresent(f_renderer_ps);
@@ -142,9 +158,9 @@ t_eReturnCode Fish_Setup(t_sFishMvmt_FishPosition *f_positions_fishes_s)
     }
     else if(Ret_e == RC_OK)
     {
-        f_positions_fishes_s->positionX_f64 = (int)100;
-        f_positions_fishes_s->positionY_f64 = (int)100;
-        f_positions_fishes_s->angle_f64 = (float)M_PI / 2;
+        f_positions_fishes_s->positionX_f64 = (int)400;
+        f_positions_fishes_s->positionY_f64 = (int)300;
+        f_positions_fishes_s->angle_f64 = (float)  M_PI / 8;
 
         //ModLog_WriteInfoInFile("THe ball is initialize");
     }
