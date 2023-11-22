@@ -29,7 +29,14 @@
     // ********************************************************************
     // *                      Types
     // ********************************************************************
-
+    typedef enum
+    {
+        pt_sommet,  /**<sommet of triangle*/
+        pt_left,    /**<left side triangle*/
+        pt_right,   /**<right side triangle*/
+        /*number of point*/
+        nbr_point,
+    }t_eFishDsgn_triangle;
     // ********************************************************************
     // *                      Prototypes
     // ********************************************************************
@@ -55,7 +62,7 @@
     *  @retval RC_OK			                   @copydoc RC_OK
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
-    t_eReturnCode Fish_Setup(t_sFishMvmt_FishPosition *f_setup_triangle_s);
+    t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[]);
     /****************************************************************************/
     /**
      *
@@ -70,7 +77,7 @@
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
 
-    t_eReturnCode Fish_Update(t_sFishMvmt_FishPosition f_positions_fishes_ps[]);
+    t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishPosition f_positions_fishes_ps[]);
     /****************************************************************************/
     /**
      *
@@ -84,7 +91,7 @@
     *  @retval RC_OK			                   @copydoc RC_OK
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
-   t_eReturnCode Fish_Render(t_sFishMvmt_FishPosition f_setup_ball_s, SDL_Renderer *f_renderer_ps);
+    t_eReturnCode FishDsgn_Render(t_sFishMvmt_FishPosition f_positions_fishes_as[], SDL_Renderer *f_renderer_ps);
     //****************************************************************************
     //                      Public functions - Implementation
     //********************************************************************************

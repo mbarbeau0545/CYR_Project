@@ -23,7 +23,7 @@
     // *                      Defines
     // ********************************************************************
     /*setup  windows*/
-    #define WINDOW_WIDTH 800 
+    #define WINDOW_WIDTH 800
     #define WINDOW_HEIGHT 600
 
     /*boolean*/
@@ -33,11 +33,11 @@
     /*speed and fps stuff frame*/
     #define FPS 30 /*< 30 images per second */
     #define FRAME_TARGET_TIME (1000 / FPS) /*< number of frame per second */
-    
+
     /*Width and Height of triangle representing the fish*/
     #define FISH_WIDTH 15
     #define FISH_HEIGHT 10
-    #define NBR_FISH 1
+    #define NBR_FISH 10
     // ********************************************************************
     // *                      Types
     // ********************************************************************

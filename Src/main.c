@@ -181,9 +181,6 @@ static t_eReturnCode s_Main_ProcessInput(void)
     }
     return Ret_e;
 }
-/**************************************
-* Main_Render
-***************************************/
 
 //****************************************************************************
 // main
@@ -191,24 +188,24 @@ static t_eReturnCode s_Main_ProcessInput(void)
 int main(int argc, char *argv[])
 {
     t_eReturnCode Ret_e = RC_OK;
-    t_sFishMvmt_FishPosition fish_position_s;
+    t_sFishMvmt_FishPosition fish_position_as[NBR_FISH];
     //initialize g_game_is_running
     Ret_e = s_Main_InitializeWindow();
     //ModLog_WriteDataInFile(ModLog_INT, "InitializeWindow report :",&Ret_e);
     //Ret_e = Main_Setup();
     if(Ret_e == RC_OK)
     {
-        Fish_Setup(&fish_position_s);
+        FishDsgn_Setup(fish_position_as);
         ModLog_WriteInfoInFile("In main, Main isintialize");
         while(g_game_is_running == true)
         {
             Ret_e = s_Main_ProcessInput();
             if(Ret_e == RC_OK)
             {
-                Ret_e = Fish_Render(fish_position_s, g_renderer_ps);
+                Ret_e = FishDsgn_Render(fish_position_as, g_renderer_ps);
                 if(Ret_e == RC_OK)
                 {
-                    Ret_e = Fish_Update(&fish_position_s);
+                    Ret_e = FishDsgn_Update(fish_position_as);
                 }
             }
         }

@@ -11,11 +11,13 @@
 // *                      Includes
 // ********************************************************************
 #include <math.h>
+#include <time.h>
 #include "Library/ModuleLog/ModuleLog.h"
 #include "Config/TypeCommon.h"
 #include "fishDsgn.h"
 #include "../FishMvmt/FishMvmt.h"
 #include "Config/Constant.h"
+
 // ********************************************************************
 // *                      Defines
 // ********************************************************************
@@ -24,7 +26,6 @@
 // *                      Types
 // ********************************************************************
 int g_last_frame_time_ui; /*< deal with the frame */
-t_sFishMvmt_FishPosition g_fihes_position_s[NBR_FISH];
 
 // ********************************************************************
 // *                      Constants
@@ -56,19 +57,20 @@ t_sFishMvmt_FishPosition g_fihes_position_s[NBR_FISH];
 *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
 */
 
-static t_eReturnCode s_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes_s,    /*the sommet of the triangle*/
-                                    t_sFishMvmt_FishPoint *f_fish_point_left_ps,        /*the left point*/
-                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
+static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition f_positions_fishes_s,    /*the sommet of the triangle*/
+                                    SDL_FPoint *f_fish_point_left_ps,       /*the left point*/
+                                    SDL_FPoint *f_fish_point_right_ps,      /*the right point*/
                                     float f_angle_f64                            );    /*Angle in radian between axeX and AxeY for the direction*/
 //********************************************************************************
 //                      Local functions - Implementation
 //********************************************************************************
-static t_eReturnCode s_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes_s,    /*the sommet of the triangle*/
-                                    t_sFishMvmt_FishPoint *f_fish_point_left_ps,       /*the left point*/
-                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
+static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes_s,    /*the sommet of the triangle*/
+                                    SDL_FPoint *f_fish_point_left_ps,       /*the left point*/
+                                    SDL_FPoint *f_fish_point_right_ps,      /*the right point*/
                                     float f_angle_f64                            )     /*Angle in radian between axeX and AxeY for the direction*/
 {
     t_eReturnCode Ret_e = RC_OK;
+    int LI_u64;
     float projection_b_64;
     float projection_c_64;
     float projection_bb_64;
@@ -91,11 +93,11 @@ static t_eReturnCode s_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes
         projection_cc_64 = (FISH_WIDTH / 2) * cos(M_PI/2 - f_angle_f64);
         /*now we talking */
         /*left side*/
-        f_fish_point_left_ps->axeX_f64 = x_base_64 - projection_cc_64;
-        f_fish_point_left_ps->axeY_f64 = y_base_64 + projection_bb_64;
+        f_fish_point_left_ps->x = x_base_64 - projection_cc_64;
+        f_fish_point_left_ps->y = y_base_64 + projection_bb_64;
         /*right side*/
-        f_fish_point_right_ps->axeX_f64 = x_base_64 + projection_cc_64;
-        f_fish_point_right_ps->axeY_f64 = y_base_64 - projection_bb_64;
+        f_fish_point_right_ps->x = x_base_64 + projection_cc_64;
+        f_fish_point_right_ps->y = y_base_64 - projection_bb_64;
     }
     return Ret_e;
 }
@@ -103,78 +105,76 @@ static t_eReturnCode s_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes
 //                      Public functions - Implementation
 //********************************************************************************
 /******************
-* Fish_Render
+* FishDsgn_Render
 ******************/
-t_eReturnCode Fish_Render(t_sFishMvmt_FishPosition f_positions_fishes_s, SDL_Renderer *f_renderer_ps)
+t_eReturnCode FishDsgn_Render(t_sFishMvmt_FishPosition f_positions_fishes_as[], SDL_Renderer *f_renderer_ps)
 {
     t_eReturnCode Ret_e = RC_OK;
+    unsigned int LI_u64;
     t_sFishMvmt_FishPoint left_side_fish_s;
     t_sFishMvmt_FishPoint right_side_fish_s;
-    if(f_renderer_ps == NULL)
-    {
-        Ret_e = RC_ERROR_PARAM_INVALID;
-    }
-    if(Ret_e == RC_OK)
-    {
-        s_GetFishPoint(f_positions_fishes_s, &left_side_fish_s, &right_side_fish_s, f_positions_fishes_s.angle_f64);
-        //erase the last window
-        SDL_SetRenderDrawColor(f_renderer_ps, 0, 0, 0, 255);
-        SDL_RenderClear(f_renderer_ps);
-        //Here is where we can start drawing our game obkect
-        //draw rectangle
-        /*SDL_Rect ball_rect_s = {f_setup_ball_s.axeX_f,
-                                f_setup_ball_s.axeY_f,
-                                f_setup_ball_s.height_f,
-                                f_setup_ball_s.width_f};
-        SDL_SetRenderDrawColor(f_renderer_ps, 255, 255, 255, 255);
-        SDL_RenderFillRect(f_renderer_ps, &ball_rect_s);*/
-        //Swap buffer
 
-        /*draw birds in window*/
+    if (f_renderer_ps == NULL || f_positions_fishes_as == NULL)
+    {
+        return RC_ERROR_PARAM_INVALID;
+    }
+
+    // Effacement du rendu une seule fois avant la boucle
+    SDL_SetRenderDrawColor(f_renderer_ps, 0, 0, 0, 255);
+    SDL_RenderClear(f_renderer_ps);
+
+    for (LI_u64 = 0; LI_u64 < NBR_FISH; LI_u64++)
+    {
+        s_FishDsgn_GetFishPoint(f_positions_fishes_as[LI_u64], &left_side_fish_s, &right_side_fish_s, f_positions_fishes_as[LI_u64].angle_f64);
+
+        // Dessiner le poisson
         SDL_SetRenderDrawColor(f_renderer_ps, 255, 0, 0, 255);
-        SDL_RenderDrawLineF(f_renderer_ps, f_positions_fishes_s.positionX_f64 , f_positions_fishes_s.positionY_f64,
-                                           left_side_fish_s.axeX_f64          ,left_side_fish_s.axeY_f64);
-        SDL_RenderDrawLineF(f_renderer_ps, f_positions_fishes_s.positionX_f64 , f_positions_fishes_s.positionY_f64,
-                                           right_side_fish_s.axeX_f64         ,right_side_fish_s.axeY_f64);
-        SDL_RenderDrawLineF(f_renderer_ps, right_side_fish_s.axeX_f64          , right_side_fish_s.axeY_f64,
-                                           left_side_fish_s.axeX_f64          ,left_side_fish_s.axeY_f64);
-        //use for rectangle
-        //SDL_SetRenderDrawColor(f_renderer_ps, 255, 255, 255, 255);
-        SDL_RenderPresent(f_renderer_ps);
+        SDL_RenderDrawLineF(f_renderer_ps, f_positions_fishes_as[LI_u64].positionX_f64, f_positions_fishes_as[LI_u64].positionY_f64,
+                            left_side_fish_s.axeX_f64, left_side_fish_s.axeY_f64);
+        SDL_RenderDrawLineF(f_renderer_ps, f_positions_fishes_as[LI_u64].positionX_f64, f_positions_fishes_as[LI_u64].positionY_f64,
+                            right_side_fish_s.axeX_f64, right_side_fish_s.axeY_f64);
+        SDL_RenderDrawLineF(f_renderer_ps, right_side_fish_s.axeX_f64, right_side_fish_s.axeY_f64,
+                            left_side_fish_s.axeX_f64, left_side_fish_s.axeY_f64);
     }
-    return Ret_e;
+    // Mise à jour du rendu une seule fois après avoir dessiné tous les poissons
+    SDL_RenderPresent(f_renderer_ps);
 
+    return Ret_e;
 }
+
 /*******************
-* Main_Setup
+* FishDsgn_Setup
 *******************/
-t_eReturnCode Fish_Setup(t_sFishMvmt_FishPosition *f_positions_fishes_s)
+t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[])
 {
     t_eReturnCode Ret_e = RC_OK;
-    if(f_positions_fishes_s == NULL)
+    unsigned int LI_u64;
+    if(f_positions_fishes_as == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
-        ModLog_WriteErrorInFile("In Main_Setup, param invalid");
+        ModLog_WriteErrorInFile("In FishDsgn_Setup, param invalid");
     }
     else if(Ret_e == RC_OK)
     {
-        f_positions_fishes_s->positionX_f64 = (int)400;
-        f_positions_fishes_s->positionY_f64 = (int)300;
-        f_positions_fishes_s->angle_f64 = (float)  M_PI / 8;
-
-        //ModLog_WriteInfoInFile("THe ball is initialize");
+        for(LI_u64 =  0 ; LI_u64 < NBR_FISH ; LI_u64++)
+        {
+            f_positions_fishes_as[LI_u64].positionX_f64 = rand() % (WINDOW_WIDTH - 5) + 1;
+            f_positions_fishes_as[LI_u64].positionY_f64 = rand() % (WINDOW_HEIGHT - 5) + 1;
+            f_positions_fishes_as[LI_u64].angle_f64 = M_PI /4 ;
+        }
     }
     return Ret_e;
 }
 /*****************
-* Main_Update
+* FishDsgn_Update
 ******************/
-t_eReturnCode Fish_Update(t_sFishMvmt_FishPosition *f_positions_fishes_s)
+t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishPosition f_positions_fishes_as[])
 {
     t_eReturnCode Ret_e = RC_OK;
     float delta_time_f;
     int actual_frame_f;
-    if(f_positions_fishes_s == NULL)
+    int LI_u64;
+    if(f_positions_fishes_as == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
     }
@@ -197,8 +197,11 @@ t_eReturnCode Fish_Update(t_sFishMvmt_FishPosition *f_positions_fishes_s)
         actual_frame_f = SDL_GetTicks();
         delta_time_f = (actual_frame_f - g_last_frame_time_ui) / (float)1000;
         g_last_frame_time_ui = SDL_GetTicks();
-        f_positions_fishes_s->positionX_f64 -= (float)70 * cos(f_positions_fishes_s->angle_f64) * delta_time_f; /*max 70 pixels each second */
-        f_positions_fishes_s->positionY_f64 -= (float)50 * sin(f_positions_fishes_s->angle_f64) * delta_time_f; /*max 50 pixels each second */
+        for(LI_u64 = 0 ; LI_u64 < NBR_FISH ; LI_u64++)
+        {
+            f_positions_fishes_as[LI_u64].positionX_f64 -= (float)70 * cos(f_positions_fishes_as[LI_u64].angle_f64) * delta_time_f; /*max 70 pixels each second */
+            f_positions_fishes_as[LI_u64].positionY_f64 -= (float)70 * cos(f_positions_fishes_as[LI_u64].angle_f64) * delta_time_f; /*max 70 pixels each second */
+        }
     }
     return Ret_e;
 

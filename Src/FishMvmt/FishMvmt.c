@@ -12,6 +12,7 @@
 // ********************************************************************
 // *                      Includes
 // ********************************************************************
+#include <math.h>
 #include "Library/ModuleLog/ModuleLog.h"
 #include "Config/TypeCommon.h"
 #include "Config/Constant.h"
@@ -27,7 +28,7 @@ int g_last_frame_time_ui; /*< deal with the frame */
 // ********************************************************************
 // *                      Prototypes
 // ********************************************************************
-    
+
 // ********************************************************************
 // *                      Variables
 // ********************************************************************
@@ -41,9 +42,9 @@ int g_last_frame_time_ui; /*< deal with the frame */
 *	@details
 *
 *
-*	@params[in] 
+*	@params[in]
 *	@params[out]
-*	 
+*
 *
 *
 */
@@ -55,9 +56,9 @@ static t_eReturnCode s_FishMvmt_GetMinimalDistanceFish();
 *	@details
 *
 *
-*	@params[in] 
+*	@params[in]
 *	@params[out]
-*	 
+*
 *
 *
 */
@@ -69,9 +70,9 @@ static t_eReturnCode s_FishMvmt_GetCloserFishBankPosition();
 *	@details
 *
 *
-*	@params[in] 
+*	@params[in]
 *	@params[out]
-*	 
+*
 *
 *
 */
@@ -83,9 +84,9 @@ static t_eReturnCode s_FishMmvt_ObstacleAvoidance();
 *	@details
 *
 *
-*	@params[in] 
+*	@params[in]
 *	@params[out]
-*	 
+*
 *
 *
 */
@@ -100,7 +101,7 @@ t_eReturnCode FishMvmt_FishMove(t_sFishMvmt_FishPosition *f_fishes_positions_ps 
     if(f_fishes_positions_ps == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
-        
+
     }
     if(Ret_e == RC_OK)
     {
@@ -143,7 +144,7 @@ static t_eReturnCode s_FishMvmt_GetBorderFish(t_sFishMvmt_FishPosition *f_fishes
     {
         if(    f_fishes_position_s[LI_u64]->positionX_f64 == (float)0)
         {
-            f_fishes_position_s[LI_u64]->positionX_f64 = WINDOW_HEIGHT;   
+            f_fishes_position_s[LI_u64]->positionX_f64 = WINDOW_HEIGHT;
         }
         else if(f_fishes_position_s[LI_u64]->positionX_f64 == (float)WINDOW_WIDTH)
         {

@@ -47,10 +47,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../Src/FishMvmt/FishMvmt.h" />
-		<Unit filename="../Src/Library/LinkedList/Src/LinkedList.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../Src/Library/LinkedList/Src/LinkedList.h" />
 		<Unit filename="../Src/Library/ModuleLog/ModuleLog.c">
 			<Option compilerVar="CC" />
 		</Unit>
