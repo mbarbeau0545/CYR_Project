@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "typecommon.h": "c",
-        "modulelog.h": "c"
+        "modulelog.h": "c",
+        "linkedlist": "c",
+        "linkedlist.h": "c"
     }
 }

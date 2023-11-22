@@ -58,19 +58,18 @@ int g_last_frame_time_ui; /*< deal with the frame */
 */
 
 static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition f_positions_fishes_s,    /*the sommet of the triangle*/
-                                    SDL_FPoint *f_fish_point_left_ps,       /*the left point*/
-                                    SDL_FPoint *f_fish_point_right_ps,      /*the right point*/
+                                    t_sFishMvmt_FishPoint *f_fish_point_left_ps,       /*the left point*/
+                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
                                     float f_angle_f64                            );    /*Angle in radian between axeX and AxeY for the direction*/
 //********************************************************************************
 //                      Local functions - Implementation
 //********************************************************************************
 static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes_s,    /*the sommet of the triangle*/
-                                    SDL_FPoint *f_fish_point_left_ps,       /*the left point*/
-                                    SDL_FPoint *f_fish_point_right_ps,      /*the right point*/
+                                    t_sFishMvmt_FishPoint *f_fish_point_left_ps,       /*the left point*/
+                                    t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
                                     float f_angle_f64                            )     /*Angle in radian between axeX and AxeY for the direction*/
 {
     t_eReturnCode Ret_e = RC_OK;
-    int LI_u64;
     float projection_b_64;
     float projection_c_64;
     float projection_bb_64;
@@ -93,11 +92,11 @@ static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition  f_positio
         projection_cc_64 = (FISH_WIDTH / 2) * cos(M_PI/2 - f_angle_f64);
         /*now we talking */
         /*left side*/
-        f_fish_point_left_ps->x = x_base_64 - projection_cc_64;
-        f_fish_point_left_ps->y = y_base_64 + projection_bb_64;
+        f_fish_point_left_ps->axeX_f64 = x_base_64 - projection_cc_64;
+        f_fish_point_left_ps->axeY_f64 = y_base_64 + projection_bb_64;
         /*right side*/
-        f_fish_point_right_ps->x = x_base_64 + projection_cc_64;
-        f_fish_point_right_ps->y = y_base_64 - projection_bb_64;
+        f_fish_point_right_ps->axeX_f64 = x_base_64 + projection_cc_64;
+        f_fish_point_right_ps->axeY_f64 = y_base_64 - projection_bb_64;
     }
     return Ret_e;
 }
@@ -158,9 +157,10 @@ t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[])
     {
         for(LI_u64 =  0 ; LI_u64 < NBR_FISH ; LI_u64++)
         {
-            f_positions_fishes_as[LI_u64].positionX_f64 = rand() % (WINDOW_WIDTH - 5) + 1;
-            f_positions_fishes_as[LI_u64].positionY_f64 = rand() % (WINDOW_HEIGHT - 5) + 1;
-            f_positions_fishes_as[LI_u64].angle_f64 = M_PI /4 ;
+            f_positions_fishes_as[LI_u64].positionX_f64 = rand() % (WINDOW_WIDTH);
+            f_positions_fishes_as[LI_u64].positionY_f64 = rand() % (WINDOW_HEIGHT);
+            /*random number between 0 and  2 * PI*/
+            f_positions_fishes_as[LI_u64].angle_f64 =  ((float)rand() / RAND_MAX) * (2 * M_PI);
         }
     }
     return Ret_e;
@@ -171,37 +171,13 @@ t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[])
 t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishPosition f_positions_fishes_as[])
 {
     t_eReturnCode Ret_e = RC_OK;
-    float delta_time_f;
-    int actual_frame_f;
-    int LI_u64;
     if(f_positions_fishes_as == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
     }
     if(Ret_e == RC_OK)
     {
-        /*Compare 32-bit SDL ticks values, and return true if `A` has passed `B`.*/
-        while(SDL_TICKS_PASSED(SDL_GetTicks(), g_last_frame_time_ui + FRAME_TARGET_TIME) != true)
-        {
-             /*waste some time / sleep until we reach the frame target time */
-
-        }
-        /*Logic to keep a fixed timestep*/
-
-        /******************************************************************
-        *  Delta time is the amount of time elapsed since the last frame
-        *  That is going to be how may pixels passed in a second
-        *  it's about 0.002 s
-        *******************************************************************/
-        //               The current frame minus the last frame
-        actual_frame_f = SDL_GetTicks();
-        delta_time_f = (actual_frame_f - g_last_frame_time_ui) / (float)1000;
-        g_last_frame_time_ui = SDL_GetTicks();
-        for(LI_u64 = 0 ; LI_u64 < NBR_FISH ; LI_u64++)
-        {
-            f_positions_fishes_as[LI_u64].positionX_f64 -= (float)70 * cos(f_positions_fishes_as[LI_u64].angle_f64) * delta_time_f; /*max 70 pixels each second */
-            f_positions_fishes_as[LI_u64].positionY_f64 -= (float)70 * cos(f_positions_fishes_as[LI_u64].angle_f64) * delta_time_f; /*max 70 pixels each second */
-        }
+        FishMvmt_FishMove(f_positions_fishes_as);
     }
     return Ret_e;
 

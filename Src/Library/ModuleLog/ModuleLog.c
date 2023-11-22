@@ -1,10 +1,4 @@
- /* ******************************************************************
- * Copyright (C) 2023 - AUDMBA
- *
- * This document is AUDMBA property.
- * It should not be reproduced in any medium or used in any way
- * without prior written consent of AUDMBA
- * ******************************************************************/
+/*******************************************************************/
 /**
  * @file        ModuleLog.h
  * @brief       The purpose of this file is to add log at any Project\n

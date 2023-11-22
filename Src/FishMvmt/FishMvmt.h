@@ -18,8 +18,14 @@
     // ********************************************************************
     // *                      Includes
     // ********************************************************************
-    #include "Config/TypeCommon.h"
+    #include <math.h>
+    #include <stdbool.h>
+    #include "Library/ModuleLog/ModuleLog.h"
     #include "SDL2/SDL.h"
+    #include "Config/TypeCommon.h"
+    #include "Config/Constant.h"
+    #include "FishMvmt/FishMvmt.h"
+    #include "Library/LinkedList/Src/LinkedList.h"
     // ********************************************************************
     // *                      Defines
     // ********************************************************************
@@ -106,7 +112,7 @@
     *
     *
     */
-    t_eReturnCode FishMvmt_FishMove(t_sFishMvmt_FishPosition *f_fishes_positions_ps);
+    t_eReturnCode FishMvmt_FishMove(t_sFishMvmt_FishPosition f_fishes_positions_as[] );
 
     //********************************************************************************
     //                      Local functions - Implementation

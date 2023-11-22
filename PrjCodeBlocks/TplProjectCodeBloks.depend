@@ -437,7 +437,7 @@
 	"Config/TypeCommon.h"
 	"SDL2/SDL.h"
 
-1700648832 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\config\constant.h
+1700675030 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\config\constant.h
 	"Config/TypeCommon.h"
 
 1700556128 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fish\fish.c
@@ -450,8 +450,9 @@
 	"SDL2/SDL.h"
 	"Config/Constant.h"
 
-1700648560 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.c
+1700656429 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.c
 	<math.h>
+	<stdbool.h>
 	"Library/ModuleLog/ModuleLog.h"
 	"Config/TypeCommon.h"
 	"Config/Constant.h"
@@ -463,11 +464,11 @@
 	"Config/Constant.h"
 	"../FishMvmt/FishMvmt.h"
 
-1700574368 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.h
+1700674213 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.h
 	"Config/TypeCommon.h"
 	"SDL2/SDL.h"
 
-1700648812 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishdsgn\fishdsgn.c
+1700673746 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishdsgn\fishdsgn.c
 	<math.h>
 	<time.h>
 	"Library/ModuleLog/ModuleLog.h"
