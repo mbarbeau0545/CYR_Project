@@ -177,7 +177,7 @@ t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishPosition f_positions_fishes_as[])
     }
     if(Ret_e == RC_OK)
     {
-        FishMvmt_FishMove(f_positions_fishes_as);
+        FishMvmt_FishMain(f_positions_fishes_as);
     }
     return Ret_e;
 

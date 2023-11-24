@@ -23,6 +23,7 @@
     {
 
         // Errors
+        RC_ERROR_ALLOC_FAILED = -16,                    /**< The dynamic allocation failed*/
 	    RC_ERROR_POINTOR_NULL = -15,                    /**<The pointor initialize is NULL*/
         RC_ERROR_PARAM_INVALID = -14,                   /**< At least one of the parameters is not in the allowed range. */
         RC_ERROR_PARAM_NOT_SUPPORTED = -13,             /**< At lest one of the parameters is not supported. */

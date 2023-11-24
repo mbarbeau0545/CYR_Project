@@ -87,7 +87,7 @@ t_eReturnCode LinkList_AddElement(t_sLinkedList *f_linkedlist_ps, void * f_data_
     t_sElement *current_ps;
     t_sElement *element_add_ps;
     t_eReturnCode Ret_e = RC_OK;
-    t_uint8 index_loop_u8;
+    t_uint16 index_loop_u8;
     if(g_init_linked_list == false)
     {
         Ret_e = RC_ERROR_MODULE_NOT_INITIALIZED;
@@ -201,7 +201,7 @@ return Ret_e;
 t_eReturnCode LinkList_ReplaceElement(t_sLinkedList *f_linkedlist_ps, void *f_data_pv, t_uint8 f_place_u8)
 {
     t_sElement *current_ps;
-    t_uint8 loop_index_u8;
+    t_uint16 loop_index_u8;
     t_eReturnCode Ret_e = RC_OK;
     if(g_init_linked_list == false)
     {
@@ -255,7 +255,7 @@ t_eReturnCode LinkList_EraseElement(t_sLinkedList *f_linkedlist_ps, t_uint8 f_pl
 {
     t_sElement *current_ps;
     t_sElement *precedent_ps;
-    t_uint8 loop_index_u8;
+    t_uint16 loop_index_u8;
     t_eReturnCode Ret_e = RC_OK;
     if(g_init_linked_list == false)
     {
@@ -330,7 +330,7 @@ t_eReturnCode LinkList_FreeList(t_sLinkedList *f_linkedlist_ps)
     t_eReturnCode Ret_e = RC_OK;
     t_sElement *current_ps;
     t_sElement *next_ps;
-    t_uint8 loop_index_u8;
+    t_uint16 loop_index_u8;
     if(g_init_linked_list == false)
     {
         Ret_e = RC_ERROR_MODULE_NOT_INITIALIZED;

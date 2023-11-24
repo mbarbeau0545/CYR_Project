@@ -50,7 +50,7 @@ int main()
     #include <stdio.h>
     #include <stdlib.h>
     #include <stdbool.h>
-    #include "LinkedListConfig.h"
+    #include "Config/TypeCommon.h"
     // ********************************************************************
     // *                      Defines
     // ********************************************************************
@@ -68,7 +68,7 @@ int main()
         t_sElement * first_elment_pv;
         t_sElement * last_element_pv;
         t_uint16 size_struct_u16;
-        t_uint16 nbr_element_u16;
+        t_uint32 nbr_element_u16;
 
     } t_sLinkedList;
     // ********************************************************************
