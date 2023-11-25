@@ -36,13 +36,24 @@
         float positionY_f64;    /*<position in y axes*/
         float angle_f64;        /*<angle of the fish direction*/
     } t_sFishMvmt_FishPosition;
-    /*deal with link list */
-
+    /*argument neeeded for changing angle of a certain fish*/
     typedef struct
     {
-        t_sFishMvmt_FishPosition *fish_position_ps;    /**< A pointor to the t_sFishMvmt_FishPosition structure*/
+        float distance_f64;
+        float angle_f64;
+    } t_sFishMvmt_BankFish;
+    /*deal with link list */
+    typedef struct
+    {
+        t_sFishMvmt_FishPosition *position_ps;    /**< A pointor to the t_sFishMvmt_FishPosition structure*/
         void *next_elem_ps;                             /**< A pointor to the next element*/
-    } t_sFishMvmt_LLfishPosRadar;
+    } t_sFishMvmt_LLFishPosRadar;
+    
+    typedef struct
+    {
+        t_sFishMvmt_BankFish *fish_set_s;
+        void *next_elem_ps;
+    }t_sFishMvmt_LLFishDisRadar;
     /*to get the trhree point of the triangle aka the fish*/
     typedef struct
     {
@@ -50,12 +61,7 @@
         float axeY_f64;
     } t_sFishMvmt_FishPoint;
 
-    /*argument neeeded for changing angle of a certain fish*/
-    typedef struct
-    {
-        float distance_f64;
-        float angle_f64;
-    } t_sFishMvmt_BankFish;
+
 
     typedef struct
     {

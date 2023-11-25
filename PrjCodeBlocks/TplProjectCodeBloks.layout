@@ -4,17 +4,7 @@
 	<ActiveTarget name="Debug" />
 	<File name="..\Src\Config\Constant.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1170" topLine="3" />
-		</Cursor>
-	</File>
-	<File name="..\Src\Library\SDL\include\SDL2\SDL_render.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4809" topLine="131" />
-		</Cursor>
-	</File>
-	<File name="..\Src\main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7031" topLine="181" />
+			<Cursor1 position="1195" topLine="24" />
 		</Cursor>
 	</File>
 	<File name="..\Src\Library\ModuleLog\ModuleLog.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -22,39 +12,54 @@
 			<Cursor1 position="3002" topLine="63" />
 		</Cursor>
 	</File>
+	<File name="..\Src\Library\LinkedList\Src\LinkedList.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1860" topLine="36" />
+		</Cursor>
+	</File>
 	<File name="..\Src\FishDsgn\FishDsgn.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="577" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="..\Src\FishMvmt\FishMvmt.c" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="34861" topLine="738" />
+		</Cursor>
+	</File>
+	<File name="..\Src\Library\LinkedList\Src\LinkedList.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2770" topLine="72" />
+		</Cursor>
+	</File>
+	<File name="..\Src\main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7161" topLine="194" />
+		</Cursor>
+	</File>
+	<File name="..\Src\FishDsgn\FishDsgn.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7972" topLine="165" />
+		</Cursor>
+	</File>
+	<File name="..\Src\Config\TypeCommon.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="810" topLine="11" />
+		</Cursor>
+	</File>
 	<File name="..\Src\FishMvmt\FishMvmt.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="610" topLine="0" />
+			<Cursor1 position="2265" topLine="39" />
+		</Cursor>
+	</File>
+	<File name="..\Src\Library\SDL\include\SDL2\SDL_render.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4809" topLine="131" />
 		</Cursor>
 	</File>
 	<File name="..\Src\Library\ModuleLog\ModuleLog.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4673" topLine="65" />
-		</Cursor>
-	</File>
-	<File name="..\Src\FishDsgn\FishDsgn.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7627" topLine="142" />
-		</Cursor>
-	</File>
-	<File name="..\Src\Config\TypeCommon.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4631" topLine="50" />
-		</Cursor>
-	</File>
-	<File name="..\Src\Library\LinkedList\Src\LinkedList.h" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1859" topLine="105" />
-		</Cursor>
-	</File>
-	<File name="..\Src\FishMvmt\FishMvmt.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5161" topLine="119" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
