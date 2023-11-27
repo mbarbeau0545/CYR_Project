@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-11-24T10:07:38.968Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="zVkTYE3wLxwWVmxCJkYS" version="22.1.2" type="device" pages="5">
+<mxfile host="Electron" modified="2023-11-27T14:53:03.441Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="_-oqh1K3i9ESrxAeh2q8" version="22.1.2" type="device" pages="5">
   <diagram name="FilesNeeded" id="cWQ4OIQcG29znx2iLtjQ">
     <mxGraphModel dx="1036" dy="606" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -317,7 +317,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="gMKqqTxg-tFy3HgtlwVv" name="s_FishMovement_Algorithm">
-    <mxGraphModel dx="4137" dy="3992" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#FFFFFF" math="0" shadow="1">
+    <mxGraphModel dx="4295" dy="4084" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#FFFFFF" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -363,7 +363,7 @@
         <mxCell id="U9I4im_yZvUk8oBRMMyv-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="U9I4im_yZvUk8oBRMMyv-9" target="U9I4im_yZvUk8oBRMMyv-10" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="U9I4im_yZvUk8oBRMMyv-9" value="Put position and angle in LinkedList" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+        <mxCell id="U9I4im_yZvUk8oBRMMyv-9" value="Put position and angle in the right LinkedList" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
           <mxGeometry y="-2770" width="120" height="50" as="geometry" />
         </mxCell>
         <mxCell id="U9I4im_yZvUk8oBRMMyv-10" value="- Calculate distances between the fish and fishes in the grid&lt;br&gt;- put it in three different tab in function of zone distances&lt;br&gt;- also put the angle of the group fish" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
@@ -869,10 +869,10 @@
         <mxCell id="KcLgx_qgi4nyeBQ38wlT-23" value="take only the fishes in attraction zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;container=0;" parent="1" vertex="1">
           <mxGeometry x="1297.5" y="-480" width="300" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="Ni3I-BbdGU2m1CSFAuj3-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="Ni3I-BbdGU2m1CSFAuj3-1" target="U9I4im_yZvUk8oBRMMyv-23">
+        <mxCell id="Ni3I-BbdGU2m1CSFAuj3-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="Ni3I-BbdGU2m1CSFAuj3-1" target="U9I4im_yZvUk8oBRMMyv-23" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Ni3I-BbdGU2m1CSFAuj3-1" value="s_FishMvmt_GetInfoRadar" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6a00ff;fontColor=#ffffff;strokeColor=#3700CC;" vertex="1" parent="1">
+        <mxCell id="Ni3I-BbdGU2m1CSFAuj3-1" value="s_FishMvmt_GetInfoRadar" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6a00ff;fontColor=#ffffff;strokeColor=#3700CC;" parent="1" vertex="1">
           <mxGeometry x="-32.5" y="-2460" width="185" height="50" as="geometry" />
         </mxCell>
       </root>

@@ -42,7 +42,7 @@
     /*radar fish grid*/
     #define RADAR_SCALE 10
     #define FISH_RADAR_SQUARE FISH_HEIGHT * RADAR_SCALE     /**<Length of the radar */
-
+    #define NBR_ELEM_ZONE 20                                /**<nbr max of elem for one fish*/
     /*define the different radar zone*/
     #define ZONE_ATTRACTION FISH_RADAR_SQUARE                /*100*/                            /**< the fish try to get closer of another fish respecting distance*/
     #define ZONE_ALIGNMENT  FISH_RADAR_SQUARE / (2)          /*50*/                          /**< the fish adapt his direction to be colinear*/
