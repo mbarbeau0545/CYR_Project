@@ -181,6 +181,7 @@ static t_eReturnCode s_FishMvmt_BorderFish(t_sFishMvmt_FishPosition *f_fishes_po
 *
 *	@params[in] f_fish_position_s : the consider fish position
 *	@params[in] f_linkedlist_ps : group of fish in the grid
+*	@params[in] bank_fish_s : distance and angle for algnmt and attract zone
 *	@params[in] f_dis_repulse_af: angle and distance between fish and group fish in repulse zone
 *	@params[in] f_dis_attract_af: angle and distance between fish and group fish in attract zone
 *	@params[in] f_dis_algnmt_af: angle and distance between fish and group fish in algnmt zone
@@ -191,9 +192,10 @@ static t_eReturnCode s_FishMvmt_BorderFish(t_sFishMvmt_FishPosition *f_fishes_po
 */
 static t_eReturnCode s_FishMvmt_GetInFoRadar(t_sFishMvmt_FishPosition f_fish_position_s,
                                              t_sFishMvmt_FishPosition f_group_fish_s,
-                                             t_sLinkedList *f_LL_fish_repulse_ps,
-                                             t_sLinkedList *f_LL_fish_attract_ps,
-                                             t_sLinkedList *f_LL_fish_alignmt_ps);
+                                             //t_sFishMvmt_BankFish     *bank_fish_s,
+                                             t_sLinkedList            *f_LL_fish_repulse_ps,
+                                             t_sLinkedList            *f_LL_fish_attract_ps,
+                                             t_sLinkedList            *f_LL_fish_alignmt_ps);
 /*************************************************************************/
 /**
  *
@@ -326,9 +328,9 @@ static t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishPosition f_fish_pos
                     /*see if the x-axes and y-axes  corresponding*/
                     if( LI2_u64 != LI_u64
                     &&  f_fish_position_pas[LI2_u64].positionX_f64 <= boundary_grid_aui[FISH_MVMT_BOUNDARY_UP_X]
-                    &&f_fish_position_pas[LI2_u64].positionX_f64 >= boundary_grid_aui[FISH_MVMT_BOUNDARY_DOWN_X]
-                    &&f_fish_position_pas[LI2_u64].positionY_f64 <= boundary_grid_aui[FISH_MVMT_BOUNDARY_UP_Y]
-                    &&f_fish_position_pas[LI2_u64].positionY_f64 >= boundary_grid_aui[FISH_MVMT_BOUNDARY_DOWN_Y])
+                    &&f_fish_position_pas[LI2_u64].positionX_f64   >= boundary_grid_aui[FISH_MVMT_BOUNDARY_DOWN_X]
+                    &&f_fish_position_pas[LI2_u64].positionY_f64   <= boundary_grid_aui[FISH_MVMT_BOUNDARY_UP_Y]
+                    &&f_fish_position_pas[LI2_u64].positionY_f64   >= boundary_grid_aui[FISH_MVMT_BOUNDARY_DOWN_Y])
                     {
                         /*put it in the right linklist add at the end */
                         Ret_e = s_FishMvmt_GetInFoRadar(f_fish_position_pas[LI_u64],
@@ -400,7 +402,8 @@ static t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishPosition f_fish_pos
                         }
                     }
                 }
-                /*change the dir to the fish*/
+                ModLog_WriteDataInFile(ModLog_FLOAT,"angle in main", &angle_f64)
+;                /*change the dir to the fish*/
                 f_fish_position_pas[LI_u64].angle_f64 = angle_f64;
                 f_fish_position_pas[LI_u64].positionX_f64 -= f_speed_fish_f64 * cos(angle_f64);
                 f_fish_position_pas[LI_u64].positionY_f64 -= f_speed_fish_f64 * sin(angle_f64);
@@ -515,16 +518,16 @@ static t_eReturnCode s_FishMvmt_BorderFish(t_sFishMvmt_FishPosition *f_fishes_po
 ************************************/
 static t_eReturnCode s_FishMvmt_GetInFoRadar(t_sFishMvmt_FishPosition f_fish_position_s,
                                              t_sFishMvmt_FishPosition f_group_fish_s,
-                                             t_sLinkedList *f_LL_fish_repulse_ps,
-                                             t_sLinkedList *f_LL_fish_attract_ps,
-                                             t_sLinkedList *f_LL_fish_alignmt_ps)
+                                            //t_sFishMvmt_BankFish     *bank_fish_s,
+                                             t_sLinkedList            *f_LL_fish_repulse_ps,
+                                             t_sLinkedList            *f_LL_fish_attract_ps,
+                                             t_sLinkedList            *f_LL_fish_alignmt_ps)
 {
     ModLog_WriteInfoInFile("We enter in s_FishMvmt_GetInFoRadar");
     t_eReturnCode Ret_e = RC_OK;
     float distance_f64;
     bool complete_task_b = false;
-    t_sFishMvmt_BankFish bank_fish_s;
-    t_sFishMvmt_FishPosition bank_fishPo_s;
+    t_sFishMvmt_BankFish *bank_fish_s;
     if(f_LL_fish_repulse_ps == NULL || f_LL_fish_alignmt_ps == NULL || f_LL_fish_attract_ps == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
@@ -532,49 +535,45 @@ static t_eReturnCode s_FishMvmt_GetInFoRadar(t_sFishMvmt_FishPosition f_fish_pos
     }
     if(Ret_e == RC_OK)
     {
+        /*POSSIBLE ERROR*/
+        bank_fish_s = malloc(sizeof(t_sFishMvmt_BankFish));
+        Ret_e = s_FishMvmt_CalculateDistance(&distance_f64, f_fish_position_s, f_group_fish_s);
         if(Ret_e == RC_OK)
         {
-            /*POSSIBLE ERROR*/
-            Ret_e = s_FishMvmt_CalculateDistance(&distance_f64, f_fish_position_s, f_group_fish_s);
-            if(Ret_e == RC_OK)
+            bank_fish_s->distance_f64 = distance_f64;
+            bank_fish_s->angle_f64 = f_group_fish_s.angle_f64;
+            if(distance_f64 <= ZONE_REPULSION)
             {
-                bank_fish_s.distance_f64 = distance_f64;
-                bank_fish_s.angle_f64 = f_group_fish_s.angle_f64;
-                if(distance_f64 <= ZONE_REPULSION)
-                {
-                    bank_fishPo_s.angle_f64 = f_group_fish_s.angle_f64;
-                    bank_fishPo_s.positionX_f64 = f_group_fish_s.positionX_f64;
-                    bank_fishPo_s.positionY_f64 = f_group_fish_s.positionY_f64;
-                    Ret_e = LinkList_AddElement(f_LL_fish_repulse_ps, &bank_fishPo_s,0);
-                    complete_task_b = true;
-                    ModLog_WriteInfoInFile("distance put in repulse zone");
-                }
-                if(distance_f64 <= ZONE_ALIGNMENT
-                && distance_f64 > ZONE_REPULSION)
-                {
-                    Ret_e = LinkList_AddElement(f_LL_fish_alignmt_ps, &bank_fish_s,0);
-                    complete_task_b = true;
-                    ModLog_WriteInfoInFile("distance put in alignmt zone");
-                }
-                if(distance_f64 <= ZONE_ATTRACTION
-                && distance_f64 > ZONE_ALIGNMENT)
-                {
-                    Ret_e = LinkList_AddElement(f_LL_fish_attract_ps, &bank_fish_s, 0);
-                    complete_task_b = true;
-                    ModLog_WriteInfoInFile("distance put in attract zone");
+                Ret_e = LinkList_AddElement(f_LL_fish_repulse_ps, &f_group_fish_s,0);
+                complete_task_b = true;
+                ModLog_WriteInfoInFile("distance put in repulse zone");
+            }
+            if(distance_f64 <= ZONE_ALIGNMENT
+            && distance_f64 > ZONE_REPULSION)
+            {
+                Ret_e = LinkList_AddElement(f_LL_fish_alignmt_ps, bank_fish_s,0);
+                complete_task_b = true;
+                ModLog_WriteInfoInFile("distance put in alignmt zone");
+            }
+            if(distance_f64 <= ZONE_ATTRACTION
+            && distance_f64 > ZONE_ALIGNMENT)
+            {
+                Ret_e = LinkList_AddElement(f_LL_fish_attract_ps, &bank_fish_s, 0);
+                complete_task_b = true;
+                ModLog_WriteInfoInFile("distance put in attract zone");
 
-                }
-                if(Ret_e != RC_OK)
-                {
-                    ModLog_WriteErrorInFile("In s_FishMvmt_GetInFoRadar LinkList_AddElement failed");
-                }
-                if(complete_task_b != true)
-                {
-                    ModLog_WriteErrorInFile("In s_FishMvmt_GetInFoRadar not enter in a single condition");
-                    ModLog_WriteDataInFile(ModLog_FLOAT, "distance", &distance_f64);
-                }
+            }
+            if(Ret_e != RC_OK)
+            {
+                ModLog_WriteErrorInFile("In s_FishMvmt_GetInFoRadar LinkList_AddElement failed");
+            }
+            if(complete_task_b != true)
+            {
+                ModLog_WriteErrorInFile("In s_FishMvmt_GetInFoRadar not enter in a single condition");
+                ModLog_WriteDataInFile(ModLog_FLOAT, "distance", &distance_f64);
             }
         }
+        
     }
     ModLog_WriteInfoInFile("We exit in s_FishMvmt_GetInFoRadar");
     return Ret_e;
@@ -737,18 +736,15 @@ static t_eReturnCode s_FishMvmt_Attraction( t_sFishMvmt_FishPosition *f_fish_pos
     {
         /*initialize data needed*/
         average_angle_f64 = (float)0.0;
-        current_algnmt_ps   = (t_sFishMvmt_LLFishDisRadar *)f_LL_fish_algnmt_ps->first_elment_pv;
-        current_attract_ps  = (t_sFishMvmt_LLFishDisRadar *)f_LL_fish_attract_ps->first_elment_pv;
-        nbr_fish_algnmt_u64 = f_LL_fish_algnmt_ps->nbr_element_u16;
+        current_algnmt_ps    = (t_sFishMvmt_LLFishDisRadar *)f_LL_fish_algnmt_ps->first_elment_pv;
+        current_attract_ps   = (t_sFishMvmt_LLFishDisRadar *)f_LL_fish_attract_ps->first_elment_pv;
+        nbr_fish_algnmt_u64  = f_LL_fish_algnmt_ps->nbr_element_u16;
         nbr_fish_attract_u64 = f_LL_fish_attract_ps->nbr_element_u16;
         /*if there is only one fish around the angle of my fish equals the fish one*/
         if(nbr_fish_attract_u64 == (unsigned int)1)
         {
-             if(current_attract_ps->fish_set_s != NULL)
-            {
-                ModLog_WriteInfoInFile("nbr_fish_attract_u64");
-                *f_angle_attract_f64 = current_attract_ps->fish_set_s->angle_f64;
-            }
+            ModLog_WriteInfoInFile("nbr_fish_attract_u64");
+            *f_angle_attract_f64 = current_attract_ps->fish_set_s->angle_f64;
         }
         if(nbr_fish_algnmt_u64 == (unsigned int)1)
         {
@@ -758,25 +754,29 @@ static t_eReturnCode s_FishMvmt_Attraction( t_sFishMvmt_FishPosition *f_fish_pos
         else
         {
             if(nbr_fish_attract_u64 > nbr_fish_algnmt_u64)
-            {/*group attract is a centor of mass*/
+            {
                 for(LI_u64 = 0 ; LI_u64 < nbr_fish_attract_u64 ; LI_u64++)
                 {
                     if(current_attract_ps->fish_set_s != NULL)
                     {
                         ModLog_WriteInfoInFile("nbr_fish_attract_u64 > nbr_fish_algnmt_u64");
-                        average_angle_f64 += (float)current_attract_ps->fish_set_s->angle_f64;
+                        average_angle_f64 = average_angle_f64 + (float)current_attract_ps->fish_set_s->angle_f64;
+                        ModLog_WriteDataInFile(ModLog_FLOAT, "current angle", &current_attract_ps->fish_set_s->angle_f64);
                         current_attract_ps = current_attract_ps->next_elem_ps;
                     }
                 }
+                ModLog_WriteDataInFile(ModLog_FLOAT, "average angle", &average_angle_f64);
                 *f_angle_attract_f64 = (float)average_angle_f64 / nbr_fish_attract_u64;
             }
-            else
-            {/*group fish is a center of mass*/
-                ModLog_WriteInfoInFile("nbr_fish_attract_u64 < nbr_fish_algnmt_u64");
-                *f_angle_attract_f64 = (float) f_fish_position_ps->angle_f64;
+            else if(nbr_fish_attract_u64 < nbr_fish_algnmt_u64)
+            {
+                {/*group fish is a center of mass*/
+                    ModLog_WriteInfoInFile("nbr_fish_attract_u64 < nbr_fish_algnmt_u64");
+                    *f_angle_attract_f64 = (float) f_fish_position_ps->angle_f64;
+                }
             }
+             ModLog_WriteInfoInFile("We exit from s_FishMvmt_Attraction");
         }
-        ModLog_WriteInfoInFile("We exit from s_FishMvmt_Attraction");
     }
     return Ret_e;
 }

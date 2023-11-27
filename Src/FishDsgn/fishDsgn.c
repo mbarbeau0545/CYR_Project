@@ -10,14 +10,7 @@
 // ********************************************************************
 // *                      Includes
 // ********************************************************************
-#include <math.h>
-#include <time.h>
-#include "Library/ModuleLog/ModuleLog.h"
-#include "Config/TypeCommon.h"
 #include "fishDsgn.h"
-#include "../FishMvmt/FishMvmt.h"
-#include "Config/Constant.h"
-
 // ********************************************************************
 // *                      Defines
 // ********************************************************************
@@ -157,10 +150,11 @@ t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[])
     {
         for(LI_u64 =  0 ; LI_u64 < NBR_FISH ; LI_u64++)
         {
-            f_positions_fishes_as[LI_u64].positionX_f64 = rand() % (WINDOW_WIDTH);
-            f_positions_fishes_as[LI_u64].positionY_f64 = rand() % (WINDOW_HEIGHT);
-            /*random number between 0 and  2 * PI*/
-            f_positions_fishes_as[LI_u64].angle_f64 =  ((float)rand() / RAND_MAX) * (2 * M_PI);
+            f_positions_fishes_as[LI_u64].positionX_f64 = rand() % WINDOW_WIDTH;
+            f_positions_fishes_as[LI_u64].positionY_f64 = rand() % WINDOW_HEIGHT;
+            /* Nombre aléatoire entre 0 et 2 * PI */
+            f_positions_fishes_as[LI_u64].angle_f64 = (float)rand() / (float)RAND_MAX * (2 * M_PI) + 0.1;
+
         }
     }
     return Ret_e;

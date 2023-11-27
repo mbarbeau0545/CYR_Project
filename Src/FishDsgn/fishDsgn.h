@@ -18,10 +18,13 @@
     // ********************************************************************
     // *                      Includes
     // ********************************************************************
+    #include <math.h>
+    #include <time.h>
+    #include "Library/ModuleLog/ModuleLog.h"
     #include "Config/TypeCommon.h"
-    #include "SDL2/SDL.h"
-    #include "Config/Constant.h"
+    #include "fishDsgn.h"
     #include "../FishMvmt/FishMvmt.h"
+    #include "Config/Constant.h"
     // ********************************************************************
     // *                      Defines
     // ********************************************************************

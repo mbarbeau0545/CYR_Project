@@ -37,7 +37,7 @@
     /*Width and Height of triangle representing the fish*/
     #define FISH_WIDTH 10
     #define FISH_HEIGHT 10
-    #define NBR_FISH 18
+    #define NBR_FISH 15
 
     /*radar fish grid*/
     #define RADAR_SCALE 3

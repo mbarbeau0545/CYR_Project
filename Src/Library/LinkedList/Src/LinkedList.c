@@ -351,8 +351,8 @@ t_eReturnCode LinkList_FreeList(t_sLinkedList *f_linkedlist_ps)
             for(loop_index_u8 = (t_uint8)0 ; loop_index_u8 < f_linkedlist_ps->nbr_element_u16 ; loop_index_u8++)
             {
                 next_ps = (t_sElement *)current_ps->next_struct_pv;
-                current_ps->data_pv = NULL;
-                current_ps->next_struct_pv = NULL;
+                free(current_ps->data_pv);
+                free(current_ps->next_struct_pv);
                 current_ps = next_ps;
             }
             //free the struct t_sLinkedList himself
