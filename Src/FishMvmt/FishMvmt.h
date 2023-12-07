@@ -29,20 +29,13 @@
     // ********************************************************************
     // *                      Types
     // ********************************************************************
-    /*general properties of a fish */
-    typedef struct
+    typedef struct 
     {
-        float positionX_f64;    /*<position in x axes*/
-        float positionY_f64;    /*<position in y axes*/
-        float angle_f64;        /*<angle of the fish direction*/
-    } t_sFishMvmt_FishPosition;
-    /*deal with link list */
+        float positionX_f64;                                     /*<position in x axes*/
+        float positionY_f64;                                     /*<position in y axes*/
+        float angle_f64;                                         /*<angle of the fish direction*/
+    }t_sFishMvmt_FishPosition;
 
-    typedef struct
-    {
-        t_sFishMvmt_FishPosition *fish_position_ps;    /**< A pointor to the t_sFishMvmt_FishPosition structure*/
-        void *next_elem_ps;                             /**< A pointor to the next element*/
-    } t_sFishMvmt_LLfishPosRadar;
     /*to get the trhree point of the triangle aka the fish*/
     typedef struct
     {
@@ -57,11 +50,6 @@
         float angle_f64;
     } t_sFishMvmt_BankFish;
 
-    typedef struct
-    {
-        t_sFishMvmt_FishPoint *fish_position_s;
-        float angle_f64;
-    } t_sFishMvmt_FishRepulsion;
 
     typedef enum
     {
@@ -88,6 +76,16 @@
 
         FISH_MVMT_NBR_BOUNDARY,
     } t_eFishMvmt_Boundary;
+        /*general properties of a fish */
+    typedef struct
+    {
+        float positionX_f64;                                     /*<position in x axes*/
+        float positionY_f64;                                     /*<position in y axes*/
+        float angle_f64;                                         /*<angle of the fish direction*/
+        t_sFishMvmt_BankFish         *bank_attract_fishes_ps;
+        t_sFishMvmt_BankFish         *bank_alignmt_fishes_ps;
+        t_sFishMvmt_FishPosition     *bank_repulse_fishes_ps;
+    } t_sFishMvmt_FishParameters;
     // ********************************************************************
     // *                      Prototypes
     // ********************************************************************
@@ -116,7 +114,7 @@
     *
     *
     */
-    t_eReturnCode FishMvmt_FishMain(t_sFishMvmt_FishPosition f_fishes_positions_as[]);
+    t_eReturnCode FishMvmt_FishMain(t_sFishMvmt_FishParameters f_fishes_positions_as[]);
 
     //********************************************************************************
     //                      Local functions - Implementation

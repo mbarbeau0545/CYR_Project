@@ -188,26 +188,36 @@ static t_eReturnCode s_Main_ProcessInput(void)
 int main(int argc, char *argv[])
 {
     t_eReturnCode Ret_e = RC_OK;
-    t_sFishMvmt_FishPosition fish_position_as[NBR_FISH];
+    t_sFishMvmt_FishParameters fish_position_as[NBR_FISH];
     //initialize g_game_is_running
     Ret_e = s_Main_InitializeWindow();
     //ModLog_WriteDataInFile(ModLog_INT, "InitializeWindow report :",&Ret_e);
     //Ret_e = Main_Setup();
     if(Ret_e == RC_OK)
     {
-        FishDsgn_Setup(fish_position_as);
-        ModLog_WriteInfoInFile("In main, Main isintialize");
-        while(g_game_is_running == true)
+        /*initialize setup for each fish and setup */
+        Ret_e = FishDsgn_Setup(fish_position_as);
+        if(Ret_e != RC_OK)
         {
-            Ret_e = s_Main_ProcessInput();
-            if(Ret_e == RC_OK)
+            ModLog_WriteInfoInFile("In main,FishDsgn_Setup");
+        }
+        else
+        {
+            while(g_game_is_running == true)
             {
-                Ret_e = FishDsgn_Render(fish_position_as, g_renderer_ps);
+                Ret_e = s_Main_ProcessInput();
                 if(Ret_e == RC_OK)
                 {
-                    Ret_e = FishDsgn_Update(fish_position_as);
+                    Ret_e = FishDsgn_Render(fish_position_as, g_renderer_ps);
+                    if(Ret_e == RC_OK)
+                    {
+                        Ret_e = FishDsgn_Update(fish_position_as);
+                    }
                 }
             }
+            free(fish_position_as->bank_alignmt_fishes_ps);
+            free(fish_position_as->bank_attract_fishes_ps);
+            free(fish_position_as->bank_repulse_fishes_ps);
         }
     }
     s_Main_DestroyWindow();

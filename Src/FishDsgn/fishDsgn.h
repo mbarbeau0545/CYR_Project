@@ -62,7 +62,7 @@
     *  @retval RC_OK			                   @copydoc RC_OK
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
-    t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[]);
+    t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishParameters f_positions_fishes_as[]);
     /****************************************************************************/
     /**
      *
@@ -77,7 +77,7 @@
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
 
-    t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishPosition f_positions_fishes_ps[]);
+    t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishParameters f_positions_fishes_ps[]);
     /****************************************************************************/
     /**
      *
@@ -91,7 +91,7 @@
     *  @retval RC_OK			                   @copydoc RC_OK
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
-    t_eReturnCode FishDsgn_Render(t_sFishMvmt_FishPosition f_positions_fishes_as[], SDL_Renderer *f_renderer_ps);
+    t_eReturnCode FishDsgn_Render(t_sFishMvmt_FishParameters f_positions_fishes_as[], SDL_Renderer *f_renderer_ps);
     //****************************************************************************
     //                      Public functions - Implementation
     //********************************************************************************

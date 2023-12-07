@@ -57,14 +57,14 @@ int g_last_frame_time_ui; /*< deal with the frame */
 *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
 */
 
-static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition f_positions_fishes_s,    /*the sommet of the triangle*/
+static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishParameters f_positions_fishes_s,    /*the sommet of the triangle*/
                                     t_sFishMvmt_FishPoint *f_fish_point_left_ps,       /*the left point*/
                                     t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
                                     float f_angle_f64                            );    /*Angle in radian between axeX and AxeY for the direction*/
 //********************************************************************************
 //                      Local functions - Implementation
 //********************************************************************************
-static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition  f_positions_fishes_s,    /*the sommet of the triangle*/
+static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishParameters  f_positions_fishes_s,    /*the sommet of the triangle*/
                                     t_sFishMvmt_FishPoint *f_fish_point_left_ps,       /*the left point*/
                                     t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
                                     float f_angle_f64                            )     /*Angle in radian between axeX and AxeY for the direction*/
@@ -106,7 +106,7 @@ static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishPosition  f_positio
 /******************
 * FishDsgn_Render
 ******************/
-t_eReturnCode FishDsgn_Render(t_sFishMvmt_FishPosition f_positions_fishes_as[], SDL_Renderer *f_renderer_ps)
+t_eReturnCode FishDsgn_Render(t_sFishMvmt_FishParameters f_positions_fishes_as[], SDL_Renderer *f_renderer_ps)
 {
     t_eReturnCode Ret_e = RC_OK;
     unsigned int LI_u64;
@@ -144,7 +144,7 @@ t_eReturnCode FishDsgn_Render(t_sFishMvmt_FishPosition f_positions_fishes_as[], 
 /*******************
 * FishDsgn_Setup
 *******************/
-t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[])
+t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishParameters f_positions_fishes_as[])
 {
     t_eReturnCode Ret_e = RC_OK;
     unsigned int LI_u64;
@@ -161,6 +161,22 @@ t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[])
             f_positions_fishes_as[LI_u64].positionY_f64 = rand() % (WINDOW_HEIGHT);
             /*random number between 0 and  2 * PI*/
             f_positions_fishes_as[LI_u64].angle_f64 =  (float)rand() / (float)RAND_MAX * (2 * M_PI) + 0.1;
+            f_positions_fishes_as[LI_u64].bank_alignmt_fishes_ps = malloc(NBR_ELEM_ZONE * sizeof(t_sFishMvmt_BankFish));
+            f_positions_fishes_as[LI_u64].bank_attract_fishes_ps = malloc(NBR_ELEM_ZONE * sizeof(t_sFishMvmt_BankFish));
+            f_positions_fishes_as[LI_u64].bank_repulse_fishes_ps = malloc(NBR_ELEM_ZONE * sizeof(t_sFishMvmt_FishPosition));
+            /*see if the alloc worked*/
+            if( f_positions_fishes_as->bank_alignmt_fishes_ps == NULL
+            ||  f_positions_fishes_as->bank_attract_fishes_ps == NULL
+            || f_positions_fishes_as->bank_repulse_fishes_ps == NULL)
+
+            {
+                Ret_e = RC_ERROR_ALLOC_FAILED;
+                ModLog_WriteInfoInFile("In FishDsgn_Setup alloc failed");
+            }
+            else
+            {
+                 ModLog_WriteInfoInFile("In FishDsgn_Setup alloc success");
+            }
         }
     }
     return Ret_e;
@@ -168,7 +184,7 @@ t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishPosition f_positions_fishes_as[])
 /*****************
 * FishDsgn_Update
 ******************/
-t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishPosition f_positions_fishes_as[])
+t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishParameters f_positions_fishes_as[])
 {
     t_eReturnCode Ret_e = RC_OK;
     if(f_positions_fishes_as == NULL)
