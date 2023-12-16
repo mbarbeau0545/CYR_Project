@@ -1,11 +1,7 @@
  /* ******************************************************************
  * Copyright (C) 2023 - AUDMBA
  *
- * This document is AUDMBA property.
- * It should not be reproduced in any medium or used in any way
- * without prior written consent of AUDMBA
- * ******************************************************************/
-/*****************************************************************************
+/********************************************************************
  * @file        TypeCommon.h
  * @brief       Template_BriefDescription.
  * @details     TemplateDetailsDescription.\n
@@ -13,7 +9,7 @@
  * @author      xxxxxx
  * @date        jj/mm/yyyy
  * @version     1.0
- */
+ *********************************************************************/
 #ifndef TYPECOMMON_INCLUDED
 #define TYPECOMMON_INCLUDED
 
