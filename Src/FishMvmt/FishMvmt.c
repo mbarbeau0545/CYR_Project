@@ -13,14 +13,18 @@
 // *                      Includes
 // ********************************************************************
 #include "FishMvmt.h"
+#include <pthread.h>
+
 // ********************************************************************
 // *                      Defines
 // ********************************************************************
-
+#define MAX_THREADS 5
+#define FISH_BY_THREADS NBR_FISH / MAX_THREADS
 // ********************************************************************
 // *                      Types
 // ********************************************************************
 int g_last_frame_time_ui; /*< deal with the frame */
+
 // ********************************************************************
 // *                      Prototypes
 // ********************************************************************
@@ -106,7 +110,7 @@ static t_eReturnCode s_FishMvmt_Attraction( t_sFishMvmt_FishParameters f_fish_s,
 *  @retval RC_OK			                     @copydoc RC_OK
 *  @retval RC_ERROR_PARAM_INVALID                @copydoc RC_ERROR_PARAM_INVALID
 */
-static t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishParameters f_fish_position_pas[], float f_speed_fish_f64);
+t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishParameters f_positions_fishes_as[]);
 /*************************************************************************/
 /**
  *
@@ -191,36 +195,12 @@ static t_eReturnCode s_FishMvmt_GetInFoRadar(t_sFishMvmt_FishParameters f_fish_p
 *  @retval RC_ERROR_PARAM_INVALID                @copydoc RC_ERROR_PARAM_INVALID
 */
 //static t_eReturnCode s_FishMvmt_SortDecroissantArray(float f_array_af[], unsigned int f_size_array_u64);
-/*************************************************************************/
-/**
- *
- *	@brief   Get the number of none 0 value i.I the fish number in each zone
-*	@details put NULL to one and make the other one
-*
-*
-*	@params[in] f_bank_array_af : the array of fishes alignment and attraction
-*	@params[in] f_repulse_array_af : the array of fishes repulse
-*	@params[in] f_bank_array_af : the array of fishes alignment and attraction
-*	@params[in] f_bank_array_af : the array of fishes alignment and attraction
-*	@params[in] f_bank_array_af : the array of fishes alignment and attraction
-*	@params[out]
-*
-*  @retval RC_OK			                     @copydoc RC_OK
-*  @retval RC_ERROR_PARAM_INVALID                @copydoc RC_ERROR_PARAM_INVALID
-*/
-/*static t_eReturnCode s_FishMvmt_GetNbrValue(t_sFishMvmt_BankFish f_bank_array_af[],
-                                            t_sFishMvmt_FishRepulsion f_repulse_array_af[],
-                                            unsigned int f_size_array_ui,
-                                            unsigned int *f_countor_value);*/
 //****************************************************************************
 //                      Public functions - Implementation
 //********************************************************************************
 t_eReturnCode FishMvmt_FishMain(t_sFishMvmt_FishParameters f_fishes_positions_as[])
 {
     t_eReturnCode Ret_e = RC_OK;
-    float delta_time_f;
-    float fish_velocity_f64;
-    int actual_frame_f;
     if(f_fishes_positions_as == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
@@ -229,13 +209,46 @@ t_eReturnCode FishMvmt_FishMain(t_sFishMvmt_FishParameters f_fishes_positions_as
     }
     if(Ret_e == RC_OK)
     {
-        /*initialize Linklist for the radar*/
         /*Compare 32-bit SDL ticks values, and return true if `A` has passed `B`.*/
         while(SDL_TICKS_PASSED(SDL_GetTicks(), g_last_frame_time_ui + FRAME_TARGET_TIME) != true)
         {
         /*waste some time / sleep until we reach the frame target time */
 
         }
+        if(Ret_e == RC_OK)
+        {
+            Ret_e = s_FishMvmt_MovingFishes(f_fishes_positions_as);
+        }
+        if(Ret_e != RC_OK)
+        {
+            ModLog_WriteErrorInFile("In FishMvmt_FishMain, s_FishMvmt_MovingFishes failed");
+        }
+    }
+    return Ret_e;
+}
+t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishParameters f_fish_position_pas[])
+{
+
+    ModLog_WriteInfoInFile("We enter in s_FishMvmt_MovingFishes");
+    t_eReturnCode Ret_e = RC_OK;
+   
+    bool is_border_touch_b;
+    int LI_u64;
+    int LI2_u64;
+    float angle_f64;
+     float delta_time_f;
+    float fish_velocity_f64;
+    int actual_frame_f;
+    float angle_zone_af[FISH_MVMT_NBR_ANGLE];
+    unsigned int count_zone_af[FISH_MVMT_NBR_COUNT];
+    int boundary_grid_aui[FISH_MVMT_NBR_BOUNDARY];
+    if(f_fish_position_pas == NULL)
+    {
+        Ret_e = RC_ERROR_PARAM_INVALID;
+        ModLog_WriteInfoInFile("In FishMvmnt_Separation param invalid");
+    }
+    if(Ret_e == RC_OK)
+    {
         /*Logic to keep a fixed timestep*/
 
         /******************************************************************
@@ -247,40 +260,11 @@ t_eReturnCode FishMvmt_FishMain(t_sFishMvmt_FishParameters f_fishes_positions_as
         actual_frame_f = SDL_GetTicks();
         delta_time_f = (actual_frame_f - g_last_frame_time_ui) / (float)1000;
         g_last_frame_time_ui = SDL_GetTicks();
-
-        if(Ret_e == RC_OK)
-        {
-            fish_velocity_f64 = (float) FISH_SPEED * delta_time_f;
-            Ret_e = s_FishMvmt_MovingFishes(f_fishes_positions_as, fish_velocity_f64);
-        }
-        if(Ret_e != RC_OK)
-        {
-            ModLog_WriteErrorInFile("In FishMvmt_FishMain, s_FishMvmt_MovingFishes failed");
-        }
-    }
-    return Ret_e;
-}
-static t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishParameters f_fish_position_pas[], float f_speed_fish_f64)
-{
-    ModLog_WriteInfoInFile("We enter in s_FishMvmt_MovingFishes");
-    t_eReturnCode Ret_e = RC_OK;
-    bool is_border_touch_b;
-    int LI_u64;
-    int LI2_u64;
-    float angle_f64;
-    float angle_zone_af[FISH_MVMT_NBR_ANGLE];
-    unsigned int count_zone_af[FISH_MVMT_NBR_COUNT];
-    int boundary_grid_aui[FISH_MVMT_NBR_BOUNDARY];
-    if(f_fish_position_pas == NULL)
-    {
-        Ret_e = RC_ERROR_PARAM_INVALID;
-        ModLog_WriteInfoInFile("In FishMvmnt_Separation param invalid");
-    }
-    if(Ret_e == RC_OK)
-    {
+        fish_velocity_f64 = (float) FISH_SPEED * delta_time_f;
         /*do for each fish*/
-        for(LI_u64 = 0 ; LI_u64 < NBR_FISH ; LI_u64++)
+        for(LI_u64 = 0 ; LI_u64 < FISH_BY_THREADS ; LI_u64++)
         {
+           
             Ret_e = s_FishMvmt_BorderFish(&f_fish_position_pas[LI_u64], &is_border_touch_b);
             /*if fish not touch a border*/
             if(is_border_touch_b != true && Ret_e == RC_OK)
@@ -371,11 +355,9 @@ static t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishParameters f_fish_p
                                 }
                             }
                         }
-                        ModLog_WriteDataInFile(ModLog_INT,"LI", &LI_u64);                                /*change the dir to the fish*/
-                        ModLog_WriteDataInFile(ModLog_FLOAT,"angle in main", &angle_f64);                /*change the dir to the fish*/
                         f_fish_position_pas[LI_u64].angle_f64 = angle_f64;
-                        f_fish_position_pas[LI_u64].positionX_f64 -= f_speed_fish_f64 * cos(angle_f64);
-                        f_fish_position_pas[LI_u64].positionY_f64 -= f_speed_fish_f64 * sin(angle_f64);
+                        f_fish_position_pas[LI_u64].positionX_f64 -= fish_velocity_f64 * cos(angle_f64);
+                        f_fish_position_pas[LI_u64].positionY_f64 -= fish_velocity_f64 * sin(angle_f64);
                         /*free the allocation and linked list*/
                     }
                 }
@@ -388,45 +370,7 @@ static t_eReturnCode s_FishMvmt_MovingFishes(t_sFishMvmt_FishParameters f_fish_p
 //********************************************************************************
 //                      Local functions - Implementation
 //********************************************************************************
-/************************************
-* s_FishMvmt_GetNbrValue
-************************************/
-/*static t_eReturnCode s_FishMvmt_GetNbrValue(t_sFishMvmt_BankFish f_bank_array_af[],t_sFishMvmt_FishRepulsion f_repulse_array_af[],unsigned int f_size_array_ui, unsigned int *f_countor_value)
-{
-    t_eReturnCode Ret_e = RC_OK;
-    bool did_something_here_b = false;
-    unsigned int LI_u64;
-    if(f_bank_array_af != NULL && f_repulse_array_af == NULL)
-    {
-        if(Ret_e == RC_OK)
-        {
-            for(LI_u64 = 0 ; LI_u64 < f_size_array_ui ; LI_u64++)
-            {
-                if(f_bank_array_af[LI_u64].distance_f64 != (float)0)
-                {
-                    *f_countor_value += 1;
-                }
-            }
-            did_something_here_b = true;
-        }
-        if(f_repulse_array_af != NULL && f_bank_array_af == NULL)
-        {
-            for(LI_u64 = 0 ; LI_u64 < f_size_array_ui ; LI_u64++)
-                {
-                    if(f_repulse_array_af[LI_u64].angle_f64 != (float)0)
-                    {
-                        *f_countor_value += 1;
-                    }
-                }
-                did_something_here_b = true;
-        }
-        if(did_something_here_b != true)
-        {
-            Ret_e = RC_ERROR_MODULE_NOT_INITIALIZED;
-        }
-    }
-    return Ret_e;
-}*/
+
 /************************************
 * s_FishMvmt_CalculateDistance
 ************************************/
@@ -533,7 +477,6 @@ static t_eReturnCode s_FishMvmt_GetInFoRadar(t_sFishMvmt_FishParameters f_fish_p
             if(complete_task_b != true)
             {
                 ModLog_WriteErrorInFile("In s_FishMvmt_GetInFoRadar not enter in a single condition");
-                ModLog_WriteDataInFile(ModLog_FLOAT, "distance", &distance_f64);
             }
         }
     }
@@ -661,7 +604,6 @@ static t_eReturnCode s_FishMvmt_Alignment(t_sFishMvmt_FishParameters f_fish_s,
 
 
     }
-    ModLog_WriteDataInFile(ModLog_FLOAT, "f_angle_alignment_f64", f_angle_alignment_f64);
     ModLog_WriteInfoInFile("We exit in s_FishMvmt_Alignment");
     return Ret_e;
 }
@@ -706,9 +648,7 @@ static t_eReturnCode s_FishMvmt_Attraction( t_sFishMvmt_FishParameters f_fish_s,
                 {
                     ModLog_WriteInfoInFile("nbr_fish_attract_u64 > nbr_fish_algnmt_u64");
                     average_angle_f64 = average_angle_f64 + (float)f_fish_s.bank_attract_fishes_ps[LI_u64].angle_f64;
-                    ModLog_WriteDataInFile(ModLog_FLOAT, "current angle", &f_fish_s.bank_attract_fishes_ps[LI_u64].angle_f64);
-                }
-                ModLog_WriteDataInFile(ModLog_FLOAT, "average angle", &average_angle_f64);
+                }    
                 *f_angle_attract_f64 = (float)average_angle_f64 / f_count_fish_attract_u64;
             }
             else if(f_count_fish_attract_u64 < f_count_fish_alignmt_u64)
@@ -718,41 +658,12 @@ static t_eReturnCode s_FishMvmt_Attraction( t_sFishMvmt_FishParameters f_fish_s,
                     *f_angle_attract_f64 = (float)0;
                 }
             }
-            ModLog_WriteDataInFile(ModLog_FLOAT, "f_angle_attract_f64", f_angle_attract_f64);
             ModLog_WriteInfoInFile("We exit from s_FishMvmt_Attraction");
         }
     }
     return Ret_e;
 }
-/*static float s_FishMvmt_ComparisonNumber(const void *f_nbr1_pf64, const void *f_nbr2_pf64 )
-{
-    t_eReturnCode Ret_e = RC_OK;
-    float return_nbr_f64 = 0;
-    if(f_nbr1_pf64 == NULL || f_nbr2_pf64 == NULL)
-    {
-        Ret_e = RC_ERROR_PARAM_INVALID;
-        ModLog_WriteErrorInFile("In s_FishMvmt_ComparisonNumber param invalid");
-    }
-    if(Ret_e == RC_OK)
-    {
-        return_nbr_f64 = (*(float*)f_nbr2_pf64 - *(float*)f_nbr1_pf64);
-    }
-    return return_nbr_f64;
-}
-static t_eReturnCode s_FishMvmt_SortDecroissantArray(t_sFishMvmt_BankFish , unsigned int f_size_array_u64)
-{
-    t_eReturnCode Ret_e = RC_OK;
-    if(f_array_af == NULL)
-    {
-        Ret_e = RC_ERROR_PARAM_INVALID;
-        ModLog_WriteErrorInFile("In s_FishMvmt_SortDecroissantArray param invalid");
-    }
-    if(Ret_e == RC_OK)
-    {
-        qsort(f_array_af, f_size_array_u64,f_array_af[0], s_FishMvmt_ComparisonNumber);
-    }
-    return Ret_e;
-}*/
+
 //************************************************************************************
 // End of File
 //************************************************************************************

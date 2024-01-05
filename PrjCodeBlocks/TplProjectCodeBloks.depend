@@ -12,21 +12,22 @@
 	<time.h>
 	"ModuleLog.h"
 
-1700675502 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\library\modulelog\modulelog.c
+1702907219 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\library\modulelog\modulelog.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"ModuleLog.h"
 
-1698511008 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\library\modulelog\modulelog.h
+1702906966 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\library\modulelog\modulelog.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
 	"ModuleLog.h"
 
-1701943463 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\main.c
+1702912739 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\main.c
 	<stdio.h>
+	<pthread.h>
 	<stdlib.h>
 	<stdbool.h>
 	"Library/ModuleLog/ModuleLog.h"
@@ -437,7 +438,7 @@
 	"Config/TypeCommon.h"
 	"SDL2/SDL.h"
 
-1701946495 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\config\constant.h
+1702913190 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\config\constant.h
 	"Config/TypeCommon.h"
 
 1700556128 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fish\fish.c
@@ -450,16 +451,18 @@
 	"SDL2/SDL.h"
 	"Config/Constant.h"
 
-1701952089 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.c
+1702910834 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.c
 	"FishMvmt.h"
+	<pthread.h>
 
-1701943892 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishdsgn\fishdsgn.h
+1702912681 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishdsgn\fishdsgn.h
 	"Config/TypeCommon.h"
 	"SDL2/SDL.h"
 	"Config/Constant.h"
 	"../FishMvmt/FishMvmt.h"
+	<pthread.h>
 
-1701941052 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.h
+1703251884 c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishmvmt\fishmvmt.h
 	<string.h>
 	<math.h>
 	<stdbool.h>
@@ -470,7 +473,7 @@
 	"FishMvmt/FishMvmt.h"
 	"Library/LinkedList/Src/LinkedList.h"
 
-1701951959 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishdsgn\fishdsgn.c
+1702913067 source:c:\users\mbarb\onedrive\documents\cproject\cyr_project\src\fishdsgn\fishdsgn.c
 	<math.h>
 	<time.h>
 	"Library/ModuleLog/ModuleLog.h"

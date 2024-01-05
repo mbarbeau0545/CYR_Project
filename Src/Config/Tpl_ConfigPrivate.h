@@ -1,13 +1,6 @@
- /* ******************************************************************
- * Copyright (C) 2023 - AUDMBA
- *
- * This document is AUDMBA property.
- * It should not be reproduced in any medium or used in any way
- * without prior written consent of AUDMBA
- */
 /**********************************************************************
-* @file        LinkedListConfig.h
-* @brief       Manage LinkedList.
+* @file        Tpl_ConfigPrivate.h
+* @brief       config.
 * @details     
 * @author      AUDMBA
 * @date        28/10/2023
@@ -25,7 +18,7 @@
     // ********************************************************************
     // *                      Defines
     // ********************************************************************
-    #define MINIMUM 50 
+
     // ********************************************************************
     // *                      Types
     // ********************************************************************
@@ -67,6 +60,7 @@
         RC_WARNING_WRONG_RESULT = 10                    /**< The operation has succeeded, but the result is incorrect. */
 
     } t_eReturnCode;
+
     typedef unsigned char t_bool;               /**< Boolean type. */
     typedef unsigned char t_uint8;              /**< Unsigned 8-bit type. */
     typedef signed char t_sint8;                /**< Signed 8-bit type. */

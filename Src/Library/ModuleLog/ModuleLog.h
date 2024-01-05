@@ -87,7 +87,7 @@
     /**
      * @brief       Open a text file to write only data in it
      * @details     The client has to put the path of the file.\n
-     *              If the file does not exits but folders exist, the file will be create.\n
+     *              If the file does not exits but folders exist, the file will be created.\n
      *
      * @param[in] f_address_file_client_pc : the file's path from the current project
      * @param[out]

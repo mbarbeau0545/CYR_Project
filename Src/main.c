@@ -12,6 +12,7 @@
 // *                      Includes
 // ********************************************************************
 #include <stdio.h>
+#include <pthread.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Library/ModuleLog/ModuleLog.h"
@@ -107,7 +108,7 @@ static t_eReturnCode s_Main_ProcessInput(void);
 static t_eReturnCode s_Main_InitializeWindow(void)
 {
     t_eReturnCode Ret_e = RC_OK;
-    ModLog_InitializeDataFile("../Docs/Log/LogMain.txt");
+    ModLog_InitializeDataFile("../Docs/Log/DebugThreads.txt");
     ModLog_InitializeInfoFile("../Docs/Log/LogMain.txt");
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -188,18 +189,23 @@ static t_eReturnCode s_Main_ProcessInput(void)
 int main(int argc, char *argv[])
 {
     t_eReturnCode Ret_e = RC_OK;
+    float none = 6.3;
     t_sFishMvmt_FishParameters fish_position_as[NBR_FISH];
     //initialize g_game_is_running
+    unsigned int LI_u64;
+    pthread_t fishes_threads[MAX_THREADS];
+    int thread_ids[MAX_THREADS];
     Ret_e = s_Main_InitializeWindow();
     //ModLog_WriteDataInFile(ModLog_INT, "InitializeWindow report :",&Ret_e);
     //Ret_e = Main_Setup();
     if(Ret_e == RC_OK)
     {
         /*initialize setup for each fish and setup */
+        /*alloc in here*/
         Ret_e = FishDsgn_Setup(fish_position_as);
         if(Ret_e != RC_OK)
         {
-            ModLog_WriteInfoInFile("In main,FishDsgn_Setup");
+            ModLog_WriteInfoInFile("In main, FishDsgn_Setup");
         }
         else
         {
@@ -211,7 +217,15 @@ int main(int argc, char *argv[])
                     Ret_e = FishDsgn_Render(fish_position_as, g_renderer_ps);
                     if(Ret_e == RC_OK)
                     {
-                        Ret_e = FishDsgn_Update(fish_position_as);
+                        for(LI_u64 = 0 ; LI_u64 < MAX_THREADS ; LI_u64++)
+                        {
+                            thread_ids[LI_u64] = LI_u64 ;
+                            pthread_create(&fishes_threads[LI_u64], NULL, FishDsgn_Update, (void *) &fish_position_as[LI_u64 * FISH_BY_THREADS]);
+                        }
+                        for(LI_u64 = 0 ; LI_u64 < MAX_THREADS ; LI_u64++)
+                        {
+                            pthread_join(fishes_threads[LI_u64],NULL);
+                        }
                     }
                 }
             }

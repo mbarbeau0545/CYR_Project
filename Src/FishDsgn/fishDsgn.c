@@ -18,6 +18,7 @@
 #include "../FishMvmt/FishMvmt.h"
 #include "Config/Constant.h"
 
+
 // ********************************************************************
 // *                      Defines
 // ********************************************************************
@@ -26,7 +27,7 @@
 // *                      Types
 // ********************************************************************
 int g_last_frame_time_ui; /*< deal with the frame */
-
+pthread_mutex_t fish_mutex;                             /*in order to */
 // ********************************************************************
 // *                      Constants
 // ********************************************************************
@@ -69,6 +70,7 @@ static t_eReturnCode s_FishDsgn_GetFishPoint(t_sFishMvmt_FishParameters  f_posit
                                     t_sFishMvmt_FishPoint *f_fish_point_right_ps,      /*the right point*/
                                     float f_angle_f64                            )     /*Angle in radian between axeX and AxeY for the direction*/
 {
+
     t_eReturnCode Ret_e = RC_OK;
     float projection_b_64;
     float projection_c_64;
@@ -184,18 +186,23 @@ t_eReturnCode FishDsgn_Setup(t_sFishMvmt_FishParameters f_positions_fishes_as[])
 /*****************
 * FishDsgn_Update
 ******************/
-t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishParameters f_positions_fishes_as[])
+
+void *FishDsgn_Update(void *arg)
 {
     t_eReturnCode Ret_e = RC_OK;
-    if(f_positions_fishes_as == NULL)
+    pthread_mutex_init(&fish_mutex, NULL);
+    pthread_mutex_lock(&fish_mutex);
+    t_sFishMvmt_FishParameters *fish_position_as = (t_sFishMvmt_FishParameters *) arg;
+    if(fish_position_as == NULL)
     {
         Ret_e = RC_ERROR_PARAM_INVALID;
     }
     if(Ret_e == RC_OK)
     {
-        FishMvmt_FishMain(f_positions_fishes_as);
+        Ret_e = FishMvmt_FishMain(fish_position_as);
     }
-    return Ret_e;
+    pthread_mutex_unlock(&fish_mutex);
+    pthread_exit(NULL);
 
 }
 

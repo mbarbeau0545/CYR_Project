@@ -22,6 +22,7 @@
     #include "SDL2/SDL.h"
     #include "Config/Constant.h"
     #include "../FishMvmt/FishMvmt.h"
+    #include <pthread.h>
     // ********************************************************************
     // *                      Defines
     // ********************************************************************
@@ -76,8 +77,7 @@
     *  @retval RC_OK			                   @copydoc RC_OK
     *  @retval RC_ERROR_MODULE_NOT_INITIALIZED    @copydoc RC_ERROR_MODULE_NOT_INITIALIZED
     */
-
-    t_eReturnCode FishDsgn_Update(t_sFishMvmt_FishParameters f_positions_fishes_ps[]);
+    void *FishDsgn_Update(void *arg);
     /****************************************************************************/
     /**
      *

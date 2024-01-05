@@ -2,11 +2,11 @@
  * @file        Constant.h
  * @brief       This file repertory all constant needed.\n
  * @details
- *
+ ********************************************************************
  * @author      AUDMBA
  * @date        20/11/2023
  * @version     0.0
- */
+ ********************************************************************/
 
 #ifndef CONSTANT_H_INCLUDED
 #define CONSTANT_H_INCLUDED
@@ -31,14 +31,17 @@
     #define true 1
 
     /*speed and fps stuff frame*/
-    #define FPS 30 /*< 30 images per second */
+    #define FPS 90 /*< 30 images per second */
     #define FRAME_TARGET_TIME (1000 / FPS) /*< number of frame per second */
 
     /*Width and Height of triangle representing the fish*/
     #define FISH_WIDTH 10
     #define FISH_HEIGHT 10
-    #define NBR_FISH 15
-    #define FISH_SPEED 70
+    #define NBR_FISH 10
+    #define FISH_SPEED 90
+    /*deal with thread*/
+    #define MAX_THREADS 5
+    #define FISH_BY_THREADS NBR_FISH / MAX_THREADS
 
     /*radar fish grid*/
     #define RADAR_SCALE 2.5

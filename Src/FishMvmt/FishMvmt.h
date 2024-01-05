@@ -85,6 +85,7 @@
         t_sFishMvmt_BankFish         *bank_attract_fishes_ps;
         t_sFishMvmt_BankFish         *bank_alignmt_fishes_ps;
         t_sFishMvmt_FishPosition     *bank_repulse_fishes_ps;
+       
     } t_sFishMvmt_FishParameters;
     // ********************************************************************
     // *                      Prototypes
